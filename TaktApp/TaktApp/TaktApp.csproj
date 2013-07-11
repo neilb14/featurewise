@@ -39,6 +39,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JsonContent.cs" />
     <Compile Include="Taktful.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
