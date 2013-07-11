@@ -11,7 +11,7 @@ namespace Tests
         [Test]
         public async void ShouldSendTickEvent()
         {
-            Assert.AreEqual(HttpStatusCode.OK, await Taktful.Tick("project", "feature", "tick", DateTime.Now));
+            Assert.AreEqual(HttpStatusCode.OK, await Taktful.Tick("feature", "tick", DateTime.Now));
         }
     }
 }
