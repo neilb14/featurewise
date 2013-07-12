@@ -1,4 +1,4 @@
-takt.net
-========
+featurewise.net
+===============
 
-TaktApp Client for .NET
+FeatureWise Client for .NET
