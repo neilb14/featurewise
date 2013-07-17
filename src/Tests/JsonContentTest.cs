@@ -1,6 +1,6 @@
 ﻿using System;
+using GF.FeatureWise.Client;
 using NUnit.Framework;
-using TaktApp;
 
 namespace Tests
 {

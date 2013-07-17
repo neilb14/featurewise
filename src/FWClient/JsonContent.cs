@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TaktApp
+namespace GF.FeatureWise.Client
 {
     public class JsonContent
     {

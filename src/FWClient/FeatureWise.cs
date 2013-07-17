@@ -5,9 +5,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TaktApp
+namespace GF.FeatureWise.Client
 {
-    public class Taktful
+    public class FeatureWise
     {
         public static async Task<HttpStatusCode> Tick(string feature, string type, DateTime timestamp)
         {
