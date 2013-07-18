@@ -12,7 +12,7 @@ namespace Tests.Controllers
         [Fact]
         public void ShouldCreateNewUserEvent()
         {
-            var controller = new UserEventController();
+            var controller = new UserEventsController();
             var userEvent = new UserEvent
                 {
                     Feature = "Moose", Id = Guid.NewGuid(), Type = "Tick", At = DateTime.Now
