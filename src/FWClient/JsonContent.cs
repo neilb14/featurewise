@@ -4,9 +4,9 @@ namespace GF.FeatureWise.Client
 {
     public class JsonContent
     {
-        public static string Build(string project, string name, string type, DateTime at)
+        public static string Build(Guid id, string feature, string type, DateTime at)
         {
-            return string.Format("{{\"project\":\"{0}\",\"name\":\"{1}\",\"type\":\"{2}\",\"at\":\"{3}\"}}", project,name, type, at.ToString("yyyyMMddHHmmss"));
+            return string.Format("{{\"Id\":\"{0}\",\"Feature\":\"{1}\",\"Type\":\"{2}\",\"At\":\"{3}\"}}", id,feature, type, at.ToString("yyyyMMddHHmmss"));
         }
     }
 }
