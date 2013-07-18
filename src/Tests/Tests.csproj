@@ -32,16 +32,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="xunit">
+      <HintPath>..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JsonContentTest.cs" />
-    <Compile Include="FeatureWiseTest.cs" />
+    <Compile Include="Client\JsonContentTest.cs" />
+    <Compile Include="Client\FeatureWiseTest.cs" />
+    <Compile Include="Controllers\UserEventControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,7 +56,12 @@
       <Project>{712f32ed-cd37-4023-8335-f4d877ecb33e}</Project>
       <Name>FWClient</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FWServices\FWServices.csproj">
+      <Project>{b841a8d9-a6bd-4d84-bbd3-f336fd8d0e00}</Project>
+      <Name>FWServices</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

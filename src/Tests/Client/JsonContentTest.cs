@@ -1,17 +1,16 @@
 ﻿using System;
 using GF.FeatureWise.Client;
-using NUnit.Framework;
+using Xunit;
 
-namespace Tests
-{
-    [TestFixture]
+namespace Tests.Client
+{    
     public class JsonContentTest
     {
-        [Test]
-        public void ShouldGenerateJsonForTaktApp()
+        [Fact]
+        public void ShouldGenerateJsonForPosting()
         {
             var at = new DateTime(2013,9,5,8,0,30);
-            Assert.AreEqual("{\"project\":\"moose\",\"name\":\"munch\",\"type\":\"tick\",\"at\":\"20130905080030\"}",JsonContent.Build("moose", "munch", "tick", at));
+            Assert.Equal("{\"Id\":\"10fb9c71-a314-41ea-9dca-369824d14dad\",\"Feature\":\"Moose\",\"Type\":\"tick\",\"at\":\"20130905080030\"}",JsonContent.Build(Guid.Parse("10fb9c71-a314-41ea-9dca-369824d14dad"), "moose", "tick", at));
         }        
     }
 }

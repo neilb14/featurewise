@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Net;
 using GF.FeatureWise.Client;
-using NUnit.Framework;
+using Xunit;
 
-namespace Tests
-{
-    [TestFixture]
+namespace Tests.Client
+{    
     public class FeatureWiseTest
     {
-        [Test]
+        [Fact]
         public async void ShouldSendTickEvent()
         {
-            Assert.AreEqual(HttpStatusCode.OK, await  FeatureWise.Tick("feature", "tick", DateTime.Now));
+            Assert.Equal(HttpStatusCode.OK, await  FeatureWise.Tick("feature", "tick", DateTime.Now));
         }
     }
 }
