@@ -5,14 +5,14 @@ namespace FWServices.Migrations
     using System;
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DataContext.ApiDataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApiDataContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(DataContext.ApiDataContext context)
+        protected override void Seed(ApiDataContext context)
         {
             context.UserEvents.AddOrUpdate(new UserEvent
                 {

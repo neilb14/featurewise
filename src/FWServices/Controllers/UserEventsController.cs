@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using FWServices.DataContext;
 using FWServices.Models;
 using FWServices.Repositories;
 

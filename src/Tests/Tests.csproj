@@ -36,6 +36,7 @@
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Net.Http" />
@@ -45,8 +46,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\FeatureWiseHttpClientTest.cs" />
+    <Compile Include="Client\HostnameProviderTest.cs" />
     <Compile Include="Client\JsonContentTest.cs" />
-    <Compile Include="Client\FeatureWiseTest.cs" />
+    <Compile Include="Client\FeatureWiseImplTest.cs" />
     <Compile Include="Controllers\UserEventControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

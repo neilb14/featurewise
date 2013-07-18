@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using FWServices.Models;
 
-namespace FWServices.DataContext
+namespace FWServices
 {
     public class ApiDataContext : DbContext
     {
