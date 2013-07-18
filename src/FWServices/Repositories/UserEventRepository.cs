@@ -17,7 +17,9 @@ namespace FWServices.Repositories
 
         public UserEvent Add(UserEvent userEvent)
         {            
-            return context.UserEvents.Add(userEvent);         
+            var result = context.UserEvents.Add(userEvent);
+            context.SaveChanges();
+            return result;
         }
 
         public IEnumerable<UserEvent> GetAll()

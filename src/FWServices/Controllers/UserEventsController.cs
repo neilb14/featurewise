@@ -36,9 +36,12 @@ namespace FWServices.Controllers
         {
             var result = repository.Add(userEvent);
             var response = Request.CreateResponse(HttpStatusCode.Created, result);
-            var uri = Url.Link("DefaultApi", new { id = result.Id });
-            response.Headers.Location = new Uri(uri);
+            var uri = Url.Link("DefaultApi", new {controller = "UserEvents", id = result.Id});            
+            if (!String.IsNullOrEmpty(uri))
+            {
+                response.Headers.Location = new Uri(uri);   
+            }            
             return response;
         }
-    }
+    }    
 }
