@@ -184,6 +184,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\TimeSeriesController.cs" />
     <Compile Include="Controllers\UserEventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="ApiDataContext.cs" />
@@ -196,11 +197,23 @@
     <Compile Include="Migrations\201307180148385_Initial.Designer.cs">
       <DependentUpon>201307180148385_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201307190555407_AddedTimeSeries.cs" />
+    <Compile Include="Migrations\201307190555407_AddedTimeSeries.Designer.cs">
+      <DependentUpon>201307190555407_AddedTimeSeries.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201307190559151_SetLastStartTimeNullable.cs" />
+    <Compile Include="Migrations\201307190559151_SetLastStartTimeNullable.Designer.cs">
+      <DependentUpon>201307190559151_SetLastStartTimeNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\ITimeSeriesRepository.cs" />
     <Compile Include="Models\IUserEventRepository.cs" />
+    <Compile Include="Models\TimeSeries.cs" />
+    <Compile Include="Models\TimeSeriesKey.cs" />
     <Compile Include="Models\UserEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\TimeSeriesRepository.cs" />
     <Compile Include="Repositories\UserEventRepository.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -326,6 +339,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Workbench\Index.cshtml" />
+    <Content Include="Views\TimeSeries\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -336,6 +350,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201307180148385_Initial.resx">
       <DependentUpon>201307180148385_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307190555407_AddedTimeSeries.resx">
+      <DependentUpon>201307190555407_AddedTimeSeries.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201307190559151_SetLastStartTimeNullable.resx">
+      <DependentUpon>201307190559151_SetLastStartTimeNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
