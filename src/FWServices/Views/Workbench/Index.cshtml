@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Workbench";
+}
+
+<h2>Workbench</h2>
+<form id="add_event" action="/Workbench" enctype="multipart/form-data" method="POST">
+    <h3>Add Event</h3>
+    <input type="text" name="name"/>
+    <select name="type">
+        <option value="tick">Tick</option>
+        <option value="start">Start</option>
+        <option value="stop">Stop</option>
+    </select>
+    <input type="submit" name="add" value="Add Event"/>    
+</form>
