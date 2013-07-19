@@ -4,8 +4,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Routing;
-using FWServices.Controllers;
-using FWServices.Models;
+using GF.FeatureWise.Services.Controllers;
+using GF.FeatureWise.Services.Models;
 using Moq;
 using Xunit;
 

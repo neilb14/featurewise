@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FWServices.Models
+namespace GF.FeatureWise.Services.Models
 {
     public interface IUserEventRepository
     {

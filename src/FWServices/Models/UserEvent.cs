@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FWServices.Models
+namespace GF.FeatureWise.Services.Models
 {
     public class UserEvent
     {

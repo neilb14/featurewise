@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
-using FWServices.Models;
+using GF.FeatureWise.Services.Models;
 
-namespace FWServices
+namespace GF.FeatureWise.Services
 {
     public class ApiDataContext : DbContext
     {

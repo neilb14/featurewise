@@ -1,8 +1,7 @@
-namespace FWServices.Migrations
+using System.Data.Entity.Migrations;
+
+namespace GF.FeatureWise.Services.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-    
     public partial class Initial : DbMigration
     {
         public override void Up()

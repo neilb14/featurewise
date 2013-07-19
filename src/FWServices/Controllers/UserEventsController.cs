@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using FWServices.Models;
-using FWServices.Repositories;
+using GF.FeatureWise.Services.Models;
+using GF.FeatureWise.Services.Repositories;
 
-namespace FWServices.Controllers
+namespace GF.FeatureWise.Services.Controllers
 {
     public class UserEventsController : ApiController
     {

@@ -3,8 +3,8 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading;
 using System.Web.Mvc;
+using GF.FeatureWise.Services.Models;
 using WebMatrix.WebData;
-using FWServices.Models;
 
 namespace FWServices.Filters
 {

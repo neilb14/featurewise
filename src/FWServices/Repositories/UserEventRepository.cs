@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FWServices.Models;
+using GF.FeatureWise.Services.Models;
 
-namespace FWServices.Repositories
+namespace GF.FeatureWise.Services.Repositories
 {
     public class UserEventRepository : IUserEventRepository
     {

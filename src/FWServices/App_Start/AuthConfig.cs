@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Web.WebPages.OAuth;
-using FWServices.Models;
-
-namespace FWServices
+﻿namespace GF.FeatureWise.Services.App_Start
 {
     public static class AuthConfig
     {

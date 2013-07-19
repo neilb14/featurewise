@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
+using GF.FeatureWise.Services.Models;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using FWServices.Filters;
-using FWServices.Models;
 
-namespace FWServices.Controllers
+namespace GF.FeatureWise.Services.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]

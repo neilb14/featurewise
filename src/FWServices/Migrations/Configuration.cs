@@ -1,10 +1,10 @@
-using FWServices.Models;
+using FWServices;
+using GF.FeatureWise.Services.Models;
+using System;
+using System.Data.Entity.Migrations;
 
-namespace FWServices.Migrations
+namespace GF.FeatureWise.Services.Migrations
 {
-    using System;
-    using System.Data.Entity.Migrations;
-
     internal sealed class Configuration : DbMigrationsConfiguration<ApiDataContext>
     {
         public Configuration()
