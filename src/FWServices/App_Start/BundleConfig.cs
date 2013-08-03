@@ -9,7 +9,9 @@ namespace GF.FeatureWise.Services.App_Start
         {
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                         "~/Scripts/bootstrap.js",
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/d3.v3.js",
+                        "~/Scripts/Chart.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js"));
