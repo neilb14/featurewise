@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using System.IO;
+using System.Web;
+using System.Web.Mvc;
 using GF.FeatureWise.Services.Controllers;
 using GF.FeatureWise.Services.Models;
 using Moq;
@@ -9,12 +11,16 @@ namespace Tests.Controllers
     public class WorkbenchControllerTest
     {
         private readonly WorkbenchController controller;
-        private Mock<IUserEventRepository> repository;
+        private readonly Mock<IUserEventRepository> repository;
+        private readonly Mock<IParseUserEvents> parser;
+        private readonly Mock<HttpPostedFileBase> file;
 
         public WorkbenchControllerTest()
         {
             repository = new Mock<IUserEventRepository>(MockBehavior.Strict);
-            controller = new WorkbenchController(repository.Object);
+            parser = new Mock<IParseUserEvents>();
+            file = new Mock<HttpPostedFileBase>();
+            controller = new WorkbenchController(repository.Object, null);
         }
 
         [Fact]
@@ -27,10 +33,22 @@ namespace Tests.Controllers
         }
 
         [Fact]
-        public void PostIndex_ShouldSaveASingleEvent()
+        public void PostIndex_ShouldSaveASingleEvent_WhenFileIsNull()
         {
             repository.Setup(r => r.Add(It.IsAny<UserEvent>())).Returns(new UserEvent());
-            var result = controller.Index("Moose", "Tick") as RedirectResult;
+            var result = controller.Index(null, "Moose", "Tick") as RedirectResult;
+            repository.VerifyAll();
+            Assert.NotNull(result);
+            Assert.Equal("/Workbench", result.Url);
+        }        
+
+        [Fact]
+        public void PostIndex_ShouldSaveMultipleUserEvents_WhenFileIsUploaded()
+        {
+            parser.Setup(p => p.FromStream(It.IsAny<Stream>()))
+                  .Returns(new[] {new UserEvent(), new UserEvent(), new UserEvent(),});
+            repository.Setup(r => r.Add(It.IsAny<UserEvent>())).Returns(new UserEvent());
+            var result = controller.Index(file.Object, "Moose", "Tick") as RedirectResult;
             repository.VerifyAll();
             Assert.NotNull(result);
             Assert.Equal("/Workbench", result.Url);
