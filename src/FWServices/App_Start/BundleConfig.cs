@@ -10,6 +10,7 @@ namespace GF.FeatureWise.Services.App_Start
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                         "~/Scripts/bootstrap.js",
                         "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery.dataTables.js",
                         "~/Scripts/d3.v3.js",
                         "~/Scripts/Chart.js"));
 

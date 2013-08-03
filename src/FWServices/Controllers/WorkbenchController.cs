@@ -20,6 +20,7 @@ namespace GF.FeatureWise.Services.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Events = repository.GetAll();
             return View();
         }
 

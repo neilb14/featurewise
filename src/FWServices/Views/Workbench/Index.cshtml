@@ -1,4 +1,4 @@
-﻿@{
+﻿@{   
     ViewBag.Title = "Workbench";
 }
 
@@ -11,5 +11,36 @@
         <option value="start">Start</option>
         <option value="stop">Stop</option>
     </select>
-    <input type="submit" name="add" value="Add Event"/>    
+    <input type="submit" name="add" value="Add Event"/>
+    <br/>
+    <h3>Import Events</h3>
+    <input type="file" name="file"/>
+    <input type="submit" name="import" value="Import Events"/>
 </form>
+<h3>Events</h3>
+<table id="events">
+    <thead>
+        <tr>
+            <th>Feature</th>
+            <th>Type</th>
+            <th>At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var userEvent in ViewBag.Events)
+        {
+            <tr>
+                <td>@userEvent.Feature</td>
+                <td>@userEvent.Type</td>
+                <td>@userEvent.At</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section scripts
+{
+    <script type="text/javascript">
+        $("ul.nav li.workbench").addClass("active");
+        $("table#events").dataTable();
+    </script>    
+}
