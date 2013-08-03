@@ -29,6 +29,7 @@ namespace GF.FeatureWise.Services.App_Start
             bundles.Add(new StyleBundle("~/Content/css").Include(
                         "~/Content/bootstrap.css",
                         "~/Content/bootstrap-responsive.css",
+                        "~/Content/jquery.dataTables.css",
                         "~/Content/custom.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
