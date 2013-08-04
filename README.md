@@ -22,16 +22,13 @@ The worst news is that vendors on the market can be prohibitively expensive for 
 budgets.
 
 FeatureWise was built to target some specific needs for software innovation accounting.  Currently FeatureWise provides 
-some of the more important metrics for segmentation or cohort analysis.  It is not a robust tool like you'd find with a
-big vendor but hey - it's free!
+some of the more fundamental metrics such as usage counts and durations.  It is not a robust tool like you'd find with a big vendor but hey - it's free!
 
 Getting Started
 ===============
-You're going to need Visual Studio and .NET 4.5.  But you've probably already got that if you're running a .NET app.
+FeatureWise is an ASP.NET MVC4 application (with a dash of WebAPI).  So you can host it right in IIS, or on Azure.  To get started you're going to need Visual Studio with .NET 4.5 and SQLServer.
 
-FeatureWise is an ASP.NET MVC4 application (with some WebAPI stuffs).  So you can host it right in IIS, or on Azure.
-
-There is also a client piece which you can embed in your application.  The client provides a simple API for you to send 
+There is also a client library which you can embed in your application.  The client provides a simple API for you to send 
 usage events off to the server.  Configuration of the client is fairly simple, just define the hostname of your server
 in the FeatureWise.Hostname configuration property of your App.Config.  There is a singleton called FeatureWise that 
 you will use to track usage events in your application.  For example:
@@ -41,6 +38,7 @@ you will use to track usage events in your application.  For example:
 `FeatureWise.Start("feature2", DateTime.UtcNow)`
 
 `FeatureWise.Stop("feature2", DateTime.UtcNow)`
+
 
 Tracking Usage
 ===============
@@ -53,13 +51,17 @@ than others.
 
 Generating Reports
 ==================
-Reports are generated on an ETL basis to offload as much processing as possible off the critical path (aka your app).
-This means you shouldn't have to worry too much about your application slowing down as a result of FeatureWise.
+To generate a report simply click the "Generate" button on the report page.  Currently reports are generated within the web request.  I suspect we will quickly outgrow this and have to move to some kind of ETL process.
 
-Roadmap
-=======
-I'd love to make this something that can do A/B Split Testing or Multivariate analysis.  I think all it will take is
-passing along some additional data with the event details.
+Development
+===========
+- Create SQLServer database called 'FeatureWiseDev'
+- Fetch NuGet packages
+- Create database using EntityFramework's migration tool
+- Hack. Send a pull request.  Tests are highly encouraged.
 
-
-
+Help!
+=====
+- I'm not a UI/UX guy and could really use some help in making this thing sexy.  Please lend a helping hand if you have such skills.
+- .NET is painful.  Any sweetness to the build process would be appreciated.  For example, punching out properties from web.config so we don't have to hardcode db names.  Or MsBuild targets to run all tests.
+- Advice on additional data to collect, reports, etc.
