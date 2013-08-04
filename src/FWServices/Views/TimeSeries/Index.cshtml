@@ -90,11 +90,11 @@
                     return color(d.key);
                 });
             feature.append("text")
-                .datum(function(d) { return { name: d.Key, value: d.values[d.values.length - 1] }; })
+                .datum(function(d) { return { name: d.key, value: d.values[d.values.length - 1] }; })
                 .attr("transform", function(d) { return "translate(" + x(d.value.Date) + "," + y(d.value.Ticks) + ")"; })
                 .attr("x", 3)
                 .attr("dy", ".35em")
-                .text(function(d) { return d.Feature; });
+                .text(function(d) { return d.value.Feature; });
         };
         d3.json('/api/ChartData', displayChart);
     </script>
