@@ -28,7 +28,7 @@ namespace GF.FeatureWise.Services.Repositories
 
         public IEnumerable<TimeSeries> GetAll()
         {
-            return context.TimeSeries.AsEnumerable();
+            return context.TimeSeries.AsEnumerable().OrderBy(t=>t.Feature).ThenBy(t=>t.Year).ThenBy(t=>t.Month).ThenBy(t=>t.Day);
         }
     }
 }

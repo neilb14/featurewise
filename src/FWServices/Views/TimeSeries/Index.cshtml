@@ -46,7 +46,7 @@
             x = d3.time.scale().range([0, width]),
             y = d3.scale.linear().range([height, 0]),
             dateKey = function(d) {
-                return +d.Year * 10000 + +d.Month * 100 + +d.Day;
+                return +d.Year * 10000 + (+d.Month - 1) * 100 + +d.Day;
             },
             color = d3.scale.category10(),
             xAxisFormat = d3.time.format("%Y-%m-%d"),
@@ -60,39 +60,41 @@
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");            
-        var displayChart = function (dataset) {            
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        var displayChart = function(dataset) {
             dataset.forEach(function(d) {
-                d.Date = new Date(d.Year, d.Month, d.Day);
+                d.Date = new Date(d.Year, d.Month - 1, d.Day);
                 d.Key = dateKey(d);
             });
             var data = d3.nest()
-                        .key(function(d){return d.Feature;})
-                        .entries(dataset);
-            color.domain(data.map(function(d){return d.Key;}));
-            x.domain(d3.extent(dataset, function(d) {return d.Date;}));
-            y.domain(d3.extent(dataset, function(d){return d.Ticks;}));
-		    svg.append("g")
-			    .attr("class", "x axis")
-			    .attr("transform", "translate(0," + height + ")")
-			    .call(xAxis);
-		    svg.append("g")
-			    .attr("class", "y axis")
-			    .call(yAxis);		    
-		    var feature = svg.selectAll(".feature")
-			    .data(data)
-			    .enter().append("g")
-			    .attr("class", "feature");
-		    feature.append("path")
-			    .attr("class", "line")
-			    .attr("d", function(d){return line(d.values);})
-			    .style("stroke", function (d) { return color(d.Key); });		    
-		    feature.append("text")
-			    .datum(function(d){ return {name:d.Key, value:d.values[d.values.length - 1]};})
-			    .attr("transform", function(d){ return "translate(" + x(d.value.Date) + "," + y(d.value.Ticks) + ")";})
-			    .attr("x", 3)
-			    .attr("dy", ".35em")
-			    .text(function(d){return d.Feature;});
+                .key(function(d) { return d.Feature; })
+                .entries(dataset);
+            color.domain(data.map(function (d) { return d.key; }));
+            x.domain(d3.extent(dataset, function(d) { return d.Date; }));
+            y.domain(d3.extent(dataset, function(d) { return d.Ticks; }));
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis);
+            var feature = svg.selectAll(".feature")
+                .data(data)
+                .enter().append("g")
+                .attr("class", "feature");
+            feature.append("path")
+                .attr("class", "line")
+                .attr("d", function(d) { return line(d.values); })
+                .style("stroke", function (d) {                    
+                    return color(d.key);
+                });
+            feature.append("text")
+                .datum(function(d) { return { name: d.Key, value: d.values[d.values.length - 1] }; })
+                .attr("transform", function(d) { return "translate(" + x(d.value.Date) + "," + y(d.value.Ticks) + ")"; })
+                .attr("x", 3)
+                .attr("dy", ".35em")
+                .text(function(d) { return d.Feature; });
         };
         d3.json('/api/ChartData', displayChart);
     </script>
