@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using FWServices;
 using GF.FeatureWise.Services.App_Start;
 
 namespace GF.FeatureWise.Services

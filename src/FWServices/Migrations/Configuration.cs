@@ -1,6 +1,3 @@
-using FWServices;
-using GF.FeatureWise.Services.Models;
-using System;
 using System.Data.Entity.Migrations;
 
 namespace GF.FeatureWise.Services.Migrations
@@ -14,13 +11,7 @@ namespace GF.FeatureWise.Services.Migrations
 
         protected override void Seed(ApiDataContext context)
         {
-            context.UserEvents.AddOrUpdate(new UserEvent
-                {
-                    Id = Guid.NewGuid(),
-                    Feature = "Monkey",
-                    Type = "Tick",
-                    At = DateTime.UtcNow
-                });
+            // do nothing
         }
     }
 }
