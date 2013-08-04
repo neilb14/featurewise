@@ -24,8 +24,9 @@ namespace GF.FeatureWise.Services.Controllers
         {
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string accessor = "TotalUsage")
         {
+            ViewBag.Accessor = accessor;
             return View();
         }
 

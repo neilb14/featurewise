@@ -23,7 +23,7 @@ namespace GF.FeatureWise.Services.Repositories
 
         public IEnumerable<UserEvent> GetAll()
         {
-            return context.UserEvents.AsEnumerable();         
+            return context.UserEvents.AsEnumerable().OrderBy(e=>e.At);         
         }
 
         public UserEvent Get(Guid id)

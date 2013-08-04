@@ -19,7 +19,12 @@
 <div class="row">
     <div class="span6">
         <div id="chart_controls">
-            Ticks
+            <select id="chart_type">
+                <option value="TotalUsage">Total Usage</option>
+                <option value="Ticks">Ticks</option>
+                <option value="Starts">Starts</option>
+                <option value="AverageDuration">Average Duration</option>
+            </select>
         </div>
     </div>
     <div class="span6">
@@ -39,6 +44,10 @@
 @section scripts {
     <script type="text/javascript">
         $("ul.nav li.time-series").addClass("active");
+        $("select#chart_type").val('@ViewBag.Accessor');
+        $("select#chart_type").change(function () {
+            document.location.href = '/TimeSeries?accessor=' + $(this).val();
+        });
         var margin = { top: 20, right: 80, bottom: 30, left: 50 },
             width = 960 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom,
@@ -55,7 +64,7 @@
         var line = d3.svg.line()
             .interpolate("basis")
             .x(function(d) { return x(d.Date); })
-            .y(function(d) { return y(d.Ticks); });
+            .y(function(d) { return y(d.@(ViewBag.Accessor)); });
         var svg = d3.select("#chart").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
@@ -64,14 +73,15 @@
         var displayChart = function(dataset) {
             dataset.forEach(function(d) {
                 d.Date = new Date(d.Year, d.Month - 1, d.Day);
+                d.TotalUsage = d.Starts + d.Ticks;
                 d.Key = dateKey(d);
             });
             var data = d3.nest()
                 .key(function(d) { return d.Feature; })
                 .entries(dataset);
-            color.domain(data.map(function (d) { return d.key; }));
+            color.domain(data.map(function(d) { return d.key; }));
             x.domain(d3.extent(dataset, function(d) { return d.Date; }));
-            y.domain(d3.extent(dataset, function(d) { return d.Ticks; }));
+            y.domain(d3.extent(dataset, function(d) { return d.@(ViewBag.Accessor); }));
             svg.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0," + height + ")")
@@ -84,7 +94,7 @@
                 .attr("y", 6)
                 .attr("dy", "0.71em")
                 .style("text-anchor", "end")
-                .text("Number of Ticks");
+                .text("@ViewBag.Accessor");
             var feature = svg.selectAll(".feature")
                 .data(data)
                 .enter().append("g")
@@ -92,12 +102,12 @@
             feature.append("path")
                 .attr("class", "line")
                 .attr("d", function(d) { return line(d.values); })
-                .style("stroke", function (d) {                    
+                .style("stroke", function(d) {
                     return color(d.key);
                 });
             feature.append("text")
                 .datum(function(d) { return { name: d.key, value: d.values[d.values.length - 1] }; })
-                .attr("transform", function(d) { return "translate(" + x(d.value.Date) + "," + y(d.value.Ticks) + ")"; })
+                .attr("transform", function(d) { return "translate(" + x(d.value.Date) + "," + y(d.value.@(ViewBag.Accessor)) + ")"; })
                 .attr("x", 3)
                 .attr("dy", ".35em")
                 .text(function(d) { return d.value.Feature; });

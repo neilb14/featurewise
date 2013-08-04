@@ -41,12 +41,14 @@ namespace GF.FeatureWise.Services.Models
 
         public virtual void RegisterStart(DateTime at)
         {
-            throw new NotImplementedException();
+            Starts++;
+            LastStart = at;
         }
 
         public virtual void RegisterStop(DateTime at)
         {
-            throw new NotImplementedException();
+            Duration += (int) (at - LastStart).Value.TotalSeconds;
+            AverageDuration = Duration/Starts;
         }
     }
 }
