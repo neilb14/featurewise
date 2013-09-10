@@ -200,7 +200,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ChartDataController.cs" />
+    <Compile Include="Controllers\HistogramDataController.cs" />
+    <Compile Include="Controllers\TimeSeriesDataController.cs" />
+    <Compile Include="Controllers\HistogramController.cs" />
     <Compile Include="Controllers\TimeSeriesController.cs" />
     <Compile Include="Controllers\UserEventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -221,14 +223,22 @@
     <Compile Include="Migrations\201307190559151_SetLastStartTimeNullable.Designer.cs">
       <DependentUpon>201307190559151_SetLastStartTimeNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201309100305306_AddedHistogram.cs" />
+    <Compile Include="Migrations\201309100305306_AddedHistogram.Designer.cs">
+      <DependentUpon>201309100305306_AddedHistogram.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Histogram.cs" />
+    <Compile Include="Models\IHistogramRepository.cs" />
     <Compile Include="Models\IParseUserEvents.cs" />
     <Compile Include="Models\ITimeSeriesRepository.cs" />
+    <Compile Include="Models\ITrackUserEvents.cs" />
     <Compile Include="Models\IUserEventRepository.cs" />
     <Compile Include="Models\TimeSeries.cs" />
     <Compile Include="Models\TimeSeriesKey.cs" />
     <Compile Include="Models\UserEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\HistogramRepository.cs" />
     <Compile Include="Repositories\TimeSeriesRepository.cs" />
     <Compile Include="Repositories\UserEventRepository.cs" />
     <Compile Include="Services\UserEventCsvParser.cs" />
@@ -366,6 +376,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Workbench\Index.cshtml" />
     <Content Include="Views\TimeSeries\Index.cshtml" />
+    <Content Include="Views\Histogram\Index.cshtml">
+      <BrowseToURL>~/Views/Histogram/Index.cshtml</BrowseToURL>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -382,6 +395,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201307190559151_SetLastStartTimeNullable.resx">
       <DependentUpon>201307190559151_SetLastStartTimeNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201309100305306_AddedHistogram.resx">
+      <DependentUpon>201309100305306_AddedHistogram.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

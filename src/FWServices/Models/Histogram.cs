@@ -3,13 +3,10 @@ using System.Collections.Generic;
 
 namespace GF.FeatureWise.Services.Models
 {
-    public class TimeSeries : ITrackUserEvents
+    public class Histogram : ITrackUserEvents
     {
         public Guid Id { get; set; }
         public string Feature { get; set; }
-        public int Year { get; set; }
-        public int Month { get; set; }
-        public int Day { get; set; }
         public int Duration { get; set; }
         public int AverageDuration { get; set; }
         public int Ticks { get; set; }
@@ -17,19 +14,18 @@ namespace GF.FeatureWise.Services.Models
         public DateTime? LastStart { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public static IEnumerable<TimeSeries> Generate(IEnumerable<UserEvent> userEvents)
+        public static IEnumerable<Histogram> Generate(IEnumerable<UserEvent> userEvents)
         {
-            var map = new Dictionary<TimeSeriesKey,TimeSeries>();
+            var map = new Dictionary<string, Histogram>();
             foreach (var userEvent in userEvents)
-            {
-                var key = userEvent.CreateKey();
-                TimeSeries timeSeries = null;
-                if (!map.TryGetValue(key, out timeSeries))
+            {                
+                Histogram histogram = null;
+                if (!map.TryGetValue(userEvent.Feature, out histogram))
                 {
-                    timeSeries = userEvent.CreateTimeSeries();
-                    map.Add(key,timeSeries);
+                    histogram = userEvent.CreateHistogram();
+                    map.Add(userEvent.Feature, histogram);
                 }
-                userEvent.Register(timeSeries);                
+                userEvent.Register(histogram);
             }
             return map.Values;
         }
@@ -47,8 +43,8 @@ namespace GF.FeatureWise.Services.Models
 
         public virtual void RegisterStop(DateTime at)
         {
-            Duration += (int) (at - LastStart).Value.TotalSeconds;
-            AverageDuration = Duration/Starts;
+            Duration += (int)(at - LastStart).Value.TotalSeconds;
+            AverageDuration = Duration / Starts;
         }
     }
 }

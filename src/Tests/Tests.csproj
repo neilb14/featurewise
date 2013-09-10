@@ -52,10 +52,13 @@
     <Compile Include="Client\HostnameProviderTest.cs" />
     <Compile Include="Client\JsonContentTest.cs" />
     <Compile Include="Client\FeatureWiseImplTest.cs" />
-    <Compile Include="Controllers\ChartDataControllerTest.cs" />
+    <Compile Include="Controllers\HistogramDataControllerTest.cs" />
+    <Compile Include="Controllers\TimeSeriesDataControllerTest.cs" />
+    <Compile Include="Controllers\HisogramControllerTest.cs" />
     <Compile Include="Controllers\TimeSeriesControllerTest.cs" />
     <Compile Include="Controllers\UserEventControllerTest.cs" />
     <Compile Include="Controllers\WorkbenchControllerTest.cs" />
+    <Compile Include="Models\HistogramTest.cs" />
     <Compile Include="Models\TimeSeriesTest.cs" />
     <Compile Include="Models\UserEventTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -28,7 +28,7 @@ namespace GF.FeatureWise.Services.Models
             };
         }
 
-        public void Register(TimeSeries timeSeries)
+        public void Register(ITrackUserEvents timeSeries)
         {   
             var cleanType = Type.Trim().ToLower();
             if (cleanType == "tick")
@@ -37,6 +37,17 @@ namespace GF.FeatureWise.Services.Models
                 timeSeries.RegisterStart(At);
             if (cleanType == "stop")
                 timeSeries.RegisterStop(At);
+        }
+
+        public Histogram CreateHistogram()
+        {
+            return new Histogram
+                {
+                    Id = Guid.NewGuid(),
+                    Feature = Feature,
+                    LastStart = null,
+                    CreatedAt = DateTime.UtcNow                       
+                };
         }
     }    
 }

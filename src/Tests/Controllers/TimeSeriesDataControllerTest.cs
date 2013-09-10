@@ -7,16 +7,16 @@ using Xunit;
 
 namespace Tests.Controllers
 {
-    public class ChartDataControllerTest
+    public class TimeSeriesDataControllerTest
     {
-        private readonly ChartDataController controller;
+        private readonly TimeSeriesDataController controller;
         private readonly Mock<ITimeSeriesRepository> repository;
 
-        public ChartDataControllerTest()
+        public TimeSeriesDataControllerTest()
         {
             var request = new HttpRequestMessage();
             repository = new Mock<ITimeSeriesRepository>(MockBehavior.Strict);
-            controller = new ChartDataController(repository.Object){Request = request};
+            controller = new TimeSeriesDataController(repository.Object){Request = request};
         }
 
         [Fact]

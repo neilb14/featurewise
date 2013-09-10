@@ -7,5 +7,6 @@ namespace GF.FeatureWise.Services
     {
         public DbSet<UserEvent> UserEvents { get; set; }
         public DbSet<TimeSeries> TimeSeries { get; set; }
+        public DbSet<Histogram> Histograms { get; set; }
     }
 }
