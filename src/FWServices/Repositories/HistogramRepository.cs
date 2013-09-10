@@ -16,7 +16,7 @@ namespace GF.FeatureWise.Services.Repositories
         public void DeleteAll()
         {
             var objectContext = ((System.Data.Entity.Infrastructure.IObjectContextAdapter)context).ObjectContext;
-            objectContext.ExecuteStoreCommand(string.Format("TRUNCATE TABLE [{0}]", typeof(Histogram).Name));
+            objectContext.ExecuteStoreCommand(string.Format("TRUNCATE TABLE [{0}]", typeof(Histogram).Name + "s"));
         }
 
         public Histogram Add(Histogram histogram)
