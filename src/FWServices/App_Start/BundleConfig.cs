@@ -11,7 +11,7 @@ namespace GF.FeatureWise.Services.App_Start
                         "~/Scripts/bootstrap.js",
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/jquery.dataTables.js",
-                        "~/Scripts/jquery.sparkline.min.js",
+                        "~/Scripts/jquery.sparkline.js",
                         "~/Scripts/d3.v3.js",
                         "~/Scripts/Chart.js"));
 

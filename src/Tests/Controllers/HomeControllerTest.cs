@@ -27,9 +27,10 @@ namespace Tests.Controllers
                     new TimeSeries {Feature = "Moose", Ticks = 12, Starts = 30, Year = 2013, Month = 9, Day = 20}
                 });
             controller.Index();
-            Dictionary<string, List<int>> map = controller.ViewBag.Features;            
+            Dictionary<string, string> map = controller.ViewBag.Features;            
             Assert.Equal(1, map.Count);
             Assert.True(map.ContainsKey("Moose"));
+            Assert.Equal("40,46,42", map["Moose"]);
             timeSeriesRepository.VerifyAll();
         }
     }

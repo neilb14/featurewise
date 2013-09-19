@@ -22,16 +22,18 @@ namespace GF.FeatureWise.Services.Controllers
         {
             ViewBag.Title = "FeatureWise Home";
             var results = repository.GetAll();
-            var map = new Dictionary<string, List<int>>();            
+            var map = new Dictionary<string, string>();
             foreach (var result in results)
             {
-                List<int> data;
-                if (!map.TryGetValue(result.Feature, out data))
+                string data;
+                if (map.TryGetValue(result.Feature, out data))
                 {
-                    data = new List<int>();
-                    map.Add(result.Feature, data);
+                    map[result.Feature] = string.Format("{0},{1}", data, result.Ticks + result.Starts);
                 }
-                data.Add(result.Ticks + result.Starts);                
+                else
+                {
+                    map.Add(result.Feature, (result.Ticks + result.Starts).ToString());                    
+                }                
             }
             ViewBag.Features = map;
             return View();
