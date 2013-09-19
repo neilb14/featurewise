@@ -53,6 +53,7 @@
     <Compile Include="Client\JsonContentTest.cs" />
     <Compile Include="Client\FeatureWiseImplTest.cs" />
     <Compile Include="Controllers\HistogramDataControllerTest.cs" />
+    <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="Controllers\TimeSeriesDataControllerTest.cs" />
     <Compile Include="Controllers\HisogramControllerTest.cs" />
     <Compile Include="Controllers\TimeSeriesControllerTest.cs" />
