@@ -227,7 +227,12 @@
     <Compile Include="Migrations\201309100305306_AddedHistogram.Designer.cs">
       <DependentUpon>201309100305306_AddedHistogram.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201312141950205_AddedFeature.cs" />
+    <Compile Include="Migrations\201312141950205_AddedFeature.Designer.cs">
+      <DependentUpon>201312141950205_AddedFeature.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Feature.cs" />
     <Compile Include="Models\Histogram.cs" />
     <Compile Include="Models\IHistogramRepository.cs" />
     <Compile Include="Models\IParseUserEvents.cs" />
@@ -400,6 +405,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201309100305306_AddedHistogram.resx">
       <DependentUpon>201309100305306_AddedHistogram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201312141950205_AddedFeature.resx">
+      <DependentUpon>201312141950205_AddedFeature.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
