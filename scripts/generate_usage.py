@@ -38,6 +38,10 @@ env = simpy.Environment()
 env.process(user(env, 'rhino', decreasing_duration, 30, 1200))
 env.process(user(env, 'cheetah', increasing_duration, 600, 2000))
 env.process(user(env, 'moose', random_duration, 200, 6000))
+env.process(user(env, 'lion', increasing_duration, 400, 3000))
+env.process(user(env, 'mouse', decreasing_duration, 50, 1000))
+env.process(user(env, 'hippo', increasing_duration, 900, 4000))
+env.process(user(env, 'giraffe', random_duration, 1000,10000))
 env.run()
 
 print("Total Events: %d" % len(events))
@@ -59,12 +63,11 @@ for k in sorted(report.keys()):
 print("Data has been written to: data.csv")		
 
 str = ","
-fieldNames = ['key','name','type','at']
+fieldNames = ['feature', 'type','at']
 with open('data.csv', 'w') as f:
 	f.write(str.join(fieldNames) + "\n")	
 	for row in events:
-		fields = []
-		fields.append(row['at'].strftime("%Y%m%d"))
+		fields = []		
 		fields.append(row['name'])
 		fields.append(row['type'])
 		fields.append(row['at'].strftime("%Y-%m-%dT%H:%M:%S"))
