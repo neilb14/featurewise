@@ -7,5 +7,6 @@ namespace GF.FeatureWise.Services.Models
         IEnumerable<Feature> GetAll();
         bool Exists(string name);
         Feature Add(Feature feature);
+        Feature Get(string name);     
     }
 }

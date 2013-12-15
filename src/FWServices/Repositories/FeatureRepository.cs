@@ -29,5 +29,10 @@ namespace GF.FeatureWise.Services.Repositories
             context.SaveChanges();
             return feature;
         }                
+
+        public Feature Get(string name)
+        {
+            return context.Features.First(f => f.Name == name);
+        }
     }
 }

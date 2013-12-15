@@ -234,6 +234,10 @@
     <Compile Include="Migrations\201312150413529_AddedFeatureModel.Designer.cs">
       <DependentUpon>201312150413529_AddedFeatureModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201312150456385_AddedSparklineToFeature.cs" />
+    <Compile Include="Migrations\201312150456385_AddedSparklineToFeature.Designer.cs">
+      <DependentUpon>201312150456385_AddedSparklineToFeature.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feature.cs" />
     <Compile Include="Models\GenerateFeatureDecorator.cs" />
@@ -417,6 +421,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201312150413529_AddedFeatureModel.resx">
       <DependentUpon>201312150413529_AddedFeatureModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201312150456385_AddedSparklineToFeature.resx">
+      <DependentUpon>201312150456385_AddedSparklineToFeature.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

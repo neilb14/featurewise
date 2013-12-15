@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using GF.FeatureWise.Services.Controllers;
+﻿using GF.FeatureWise.Services.Controllers;
 using GF.FeatureWise.Services.Models;
 using Moq;
 using Xunit;
@@ -8,30 +7,29 @@ namespace Tests.Controllers
 {
     public class HomeControllerTest
     {
-        private readonly Mock<ITimeSeriesRepository> timeSeriesRepository;
+        private readonly Mock<IFeatureRepository> featureRepository;
         private readonly HomeController controller;
 
         public HomeControllerTest()
         {
-            timeSeriesRepository = new Mock<ITimeSeriesRepository>();
-            controller = new HomeController(timeSeriesRepository.Object, null);
+            featureRepository = new Mock<IFeatureRepository>();
+            controller = new HomeController(featureRepository.Object);
         }
 
         [Fact]
         public void GetIndex_ShouldBuildListOfFeaturesWithSparklines()
         {
-            timeSeriesRepository.Setup(r => r.GetAll()).Returns(new[]
+            featureRepository.Setup(r => r.GetAll()).Returns(new[]
                 {
-                    new TimeSeries {Feature = "Moose", Ticks = 10, Starts = 30, Year = 2013, Month = 9, Day = 18},
-                    new TimeSeries {Feature = "Moose", Ticks = 11, Starts = 35, Year = 2013, Month = 9, Day = 19},
-                    new TimeSeries {Feature = "Moose", Ticks = 12, Starts = 30, Year = 2013, Month = 9, Day = 20}
+                    new Feature {Sparkline="40,46,42"},
+                    new Feature {},
+                    new Feature {}
                 });
             controller.Index();
-            Dictionary<string, string> map = controller.ViewBag.Features;            
-            Assert.Equal(1, map.Count);
-            Assert.True(map.ContainsKey("Moose"));
-            Assert.Equal("40,46,42", map["Moose"]);
-            timeSeriesRepository.VerifyAll();
+            var features = controller.ViewBag.Features;            
+            Assert.Equal(4, features.Count);         
+            Assert.Equal("40,46,42", features[0].Sparkline);
+            featureRepository.VerifyAll();
         }
     }
 }

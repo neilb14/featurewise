@@ -11,9 +11,9 @@
 }
 <h3>Active Features</h3>
 <ul class="round">
-        @foreach (var feature in ViewBag.Features.Keys)
+        @foreach (var feature in ViewBag.Features)
         {
-            <li><span class="inlinesparkline">@ViewBag.Features[feature]</span>@feature</li>
+            <li><span class="inlinesparkline">@feature.Sparkline</span>@feature.Name</li>
         }
 </ul>
 

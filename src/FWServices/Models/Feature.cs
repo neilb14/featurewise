@@ -8,5 +8,6 @@ namespace GF.FeatureWise.Services.Models
         public string Name { get; set; }
         public string Group { get; set; }
         public string Notes { get; set; }
+        public string Sparkline { get; set; }
     }
 }
