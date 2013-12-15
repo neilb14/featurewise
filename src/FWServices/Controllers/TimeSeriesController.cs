@@ -22,7 +22,7 @@ namespace GF.FeatureWise.Services.Controllers
         }
 
         public TimeSeriesController(ApiDataContext context)
-            : this(new TimeSeriesRepository(context), new UserEventRepository(context), new GenerateTimeSeries())
+            : this(new TimeSeriesRepository(context), new UserEventRepository(context), new GenerateFeatureDecorator<TimeSeries>(new GenerateTimeSeries(),new FeatureRepository(context)))
         {
         }
 

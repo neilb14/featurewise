@@ -236,6 +236,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feature.cs" />
+    <Compile Include="Models\GenerateFeatureDecorator.cs" />
     <Compile Include="Models\GenerateHistogram.cs" />
     <Compile Include="Models\GenerateTimeSeries.cs" />
     <Compile Include="Models\Histogram.cs" />

@@ -17,7 +17,7 @@ namespace GF.FeatureWise.Services.Controllers
             this.generateHistogram = generateHistogram;
         }
 
-        public HistogramController(ApiDataContext context): this(new HistogramRepository(context), new UserEventRepository(context), new GenerateHistogram())
+        public HistogramController(ApiDataContext context): this(new HistogramRepository(context), new UserEventRepository(context), new GenerateFeatureDecorator<Histogram>(new GenerateHistogram(), new FeatureRepository(context)))
         {            
         }
 
