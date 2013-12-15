@@ -12,26 +12,30 @@ namespace Tests.Controllers
         private readonly HistogramController controller;
         private readonly Mock<IHistogramRepository> histogramRepository;
         private readonly Mock<IUserEventRepository> userEventRepository;
+        private Mock<IGenerate<Histogram>> generateHistogram;
 
         public HisogramControllerTest()
         {
             histogramRepository = new Mock<IHistogramRepository>();
             userEventRepository = new Mock<IUserEventRepository>();
-            controller = new HistogramController(histogramRepository.Object, userEventRepository.Object);
+            generateHistogram = new Mock<IGenerate<Histogram>>();
+            controller = new HistogramController(histogramRepository.Object, userEventRepository.Object, generateHistogram.Object);
         }
 
         [Fact]
         public void ShouldGenerateTimeSeries()
         {
-            userEventRepository.Setup(r => r.GetAll()).Returns(new[]
+            var userEvents = new[]
                 {
-                    new UserEvent {Type = "tick", Feature = "Moose", At = DateTime.Now},
-                    new UserEvent {Type = "tick", Feature = "Beaver", At = DateTime.Now},
-                    new UserEvent {Type = "tick", Feature = "Goose", At = DateTime.Now},
-                });
+                    new UserEvent {Type = "tick", Feature = "Moose", At = DateTime.Now}, new UserEvent {Type = "tick", Feature = "Beaver", At = DateTime.Now}, new UserEvent {Type = "tick", Feature = "Goose", At = DateTime.Now},
+                };
+            userEventRepository.Setup(r => r.GetAll()).Returns(userEvents);
+            var expectedHistogram = new Histogram();
+            generateHistogram.Setup(g => g.Generate(userEvents)).Returns(new[] {expectedHistogram});
             histogramRepository.Setup(r => r.DeleteAll());
-            histogramRepository.Setup(r => r.Add(It.IsAny<Histogram>()));
+            histogramRepository.Setup(r => r.Add(expectedHistogram));
             var result = controller.Generate() as RedirectResult;
+            generateHistogram.VerifyAll();
             histogramRepository.VerifyAll();
             Assert.NotNull(result);
             Assert.Equal("/Histogram", result.Url);

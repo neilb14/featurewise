@@ -230,12 +230,13 @@
     <Compile Include="Migrations\201309100305306_AddedHistogram.Designer.cs">
       <DependentUpon>201309100305306_AddedHistogram.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201312141950205_AddedFeature.cs" />
-    <Compile Include="Migrations\201312141950205_AddedFeature.Designer.cs">
-      <DependentUpon>201312141950205_AddedFeature.cs</DependentUpon>
+    <Compile Include="Migrations\201312150413529_AddedFeatureModel.cs" />
+    <Compile Include="Migrations\201312150413529_AddedFeatureModel.Designer.cs">
+      <DependentUpon>201312150413529_AddedFeatureModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Feature.cs" />
+    <Compile Include="Models\GenerateHistogram.cs" />
     <Compile Include="Models\GenerateTimeSeries.cs" />
     <Compile Include="Models\Histogram.cs" />
     <Compile Include="Models\IFeatureRepository.cs" />
@@ -413,8 +414,8 @@
     <EmbeddedResource Include="Migrations\201309100305306_AddedHistogram.resx">
       <DependentUpon>201309100305306_AddedHistogram.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201312141950205_AddedFeature.resx">
-      <DependentUpon>201312141950205_AddedFeature.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201312150413529_AddedFeatureModel.resx">
+      <DependentUpon>201312150413529_AddedFeatureModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

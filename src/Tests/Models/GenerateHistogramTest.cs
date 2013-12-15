@@ -5,12 +5,12 @@ using Xunit;
 
 namespace Tests.Models
 {
-    public class HistogramTest
+    public class GenerateHistogramTest
     {
         [Fact]
         public void ShouldGenerateHistogramForASingleFeature()
         {
-            var results = Histogram.Generate(new UserEvent[]
+            var results = new GenerateHistogram().Generate(new[]
                 {
                     new UserEvent {Feature = "Moose", At = DateTime.UtcNow, Type = "tick"},
                     new UserEvent {Feature = "Moose", At = DateTime.UtcNow, Type = "tick"},
@@ -23,14 +23,14 @@ namespace Tests.Models
         [Fact]
         public void ShouldGenerateHistogramForMultipleFeatures()
         {
-            var results = Histogram.Generate(new UserEvent[]
+            var results = new GenerateHistogram().Generate(new[]
                 {
                     new UserEvent {Feature = "Moose", At = DateTime.UtcNow, Type = "tick"},
                     new UserEvent {Feature = "Hollerado", At = DateTime.UtcNow, Type = "tick"},
                     new UserEvent {Feature = "Moose", At = DateTime.UtcNow, Type = "tick"}
                 });
             Assert.Equal(2, results.Count());
-            Assert.Equal(2, results.Single(s=>s.Feature=="Moose").Ticks);
+            Assert.Equal(2, results.Single(s => s.Feature == "Moose").Ticks);
             Assert.Equal(1, results.Single(s => s.Feature == "Hollerado").Ticks);
         }
     }

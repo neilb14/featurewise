@@ -14,22 +14,6 @@ namespace GF.FeatureWise.Services.Models
         public DateTime? LastStart { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public static IEnumerable<Histogram> Generate(IEnumerable<UserEvent> userEvents)
-        {
-            var map = new Dictionary<string, Histogram>();
-            foreach (var userEvent in userEvents)
-            {                
-                Histogram histogram = null;
-                if (!map.TryGetValue(userEvent.Feature, out histogram))
-                {
-                    histogram = userEvent.CreateHistogram();
-                    map.Add(userEvent.Feature, histogram);
-                }
-                userEvent.Register(histogram);
-            }
-            return map.Values;
-        }
-
         public virtual void RegisterTick()
         {
             Ticks++;

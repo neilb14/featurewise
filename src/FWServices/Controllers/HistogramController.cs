@@ -8,14 +8,16 @@ namespace GF.FeatureWise.Services.Controllers
     {
         private readonly IHistogramRepository repository;
         private readonly IUserEventRepository userEventRepository;
+        private readonly IGenerate<Histogram> generateHistogram;
 
-        public HistogramController(IHistogramRepository repository, IUserEventRepository userEventRepository)
+        public HistogramController(IHistogramRepository repository, IUserEventRepository userEventRepository, IGenerate<Histogram> generateHistogram)
         {
             this.repository = repository;
             this.userEventRepository = userEventRepository;
+            this.generateHistogram = generateHistogram;
         }
 
-        public HistogramController(ApiDataContext context): this(new HistogramRepository(context), new UserEventRepository(context))
+        public HistogramController(ApiDataContext context): this(new HistogramRepository(context), new UserEventRepository(context), new GenerateHistogram())
         {            
         }
 
@@ -34,7 +36,7 @@ namespace GF.FeatureWise.Services.Controllers
         public ActionResult Generate()
         {
             repository.DeleteAll();
-            foreach (var histogram in Histogram.Generate(userEventRepository.GetAll()))
+            foreach (var histogram in generateHistogram.Generate(userEventRepository.GetAll()))
             {
                 repository.Add(histogram);
             }
