@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using GF.FeatureWise.Services.Models;
 using GF.FeatureWise.Services.Repositories;
@@ -37,6 +38,10 @@ namespace GF.FeatureWise.Services.Controllers
 
         public ActionResult Index(string accessor = "TotalUsage")
         {
+            var features = featureRepository.GetAll().ToArray();            
+            var groups = features.Select(feature => feature.Group).Distinct().ToList();
+            ViewBag.Groups = groups;
+            ViewBag.Features = features;
             ViewBag.Accessor = accessor;
             return View();
         }

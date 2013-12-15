@@ -20,8 +20,8 @@ namespace GF.FeatureWise.Services.Controllers
         }
 
         public IEnumerable<TimeSeries> GetChartData()
-        {            
+        {
             return timeSeriesRepository.GetAll();
-        }       
+        }
     }
 }

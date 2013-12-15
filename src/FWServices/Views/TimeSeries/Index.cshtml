@@ -36,6 +36,13 @@
                 <option value="Starts">Starts</option>
                 <option value="AverageDuration">Average Duration</option>
             </select>
+            <select id="group">
+                <option value="all">All Groups</option>
+                @foreach (var group in ViewBag.Groups)
+                {
+                    <option value="@group">@group</option>
+                }
+            </select>
         </div>
     </div>
     <div class="span6">
@@ -56,31 +63,51 @@
     <script type="text/javascript">
         $("ul.nav li.time-series").addClass("active");
         $("select#chart_type").val('@ViewBag.Accessor');
-        $("select#chart_type").change(function () {
+        $("select#chart_type").change(function() {
             document.location.href = '/TimeSeries?accessor=' + $(this).val();
         });
+        var groupMap = { all: [], Ungrouped:[] };
+        @foreach (var group in ViewBag.Groups)
+        {
+            <text>                        
+        groupMap['@(group)'] = []; 
+        
+        </text>
+        }
+        @foreach (var feature in ViewBag.Features)
+        {
+            <text>
+        groupMap['all'].push('@(feature.Name)');
+        groupMap['@(feature.Group ?? "Ungrouped")'].push('@(feature.Name)');
+        </text>
+        }            
+
         function onMouseOverPath(d, i) {
             var pathClass = d3.select(this).attr("class");
-            d3.select(this).attr("class", pathClass + " current");            
+            d3.select(this).attr("class", pathClass + " current");
             d3.select(this.parentNode).select("text").attr("class", "current");
         }
-        function onMouseOutPath(d, i) {            
+
+        function onMouseOutPath(d, i) {
             var currClass = d3.select(this).attr("class");
-            var prevClass = currClass.substring(0, currClass.length-8);
-            d3.select(this).attr("class", prevClass);        
+            var prevClass = currClass.substring(0, currClass.length - 8);
+            d3.select(this).attr("class", prevClass);
             d3.select(this.parentNode).select("text").attr("class", "");
         }
+
         function onMouseOverText(d, i) {
             var pathClass = d3.select(this.parentNode).select("path").attr("class");
-            d3.select(this.parentNode).select("path").attr("class", pathClass + " current");            
+            d3.select(this.parentNode).select("path").attr("class", pathClass + " current");
             d3.select(this).attr("class", "current");
         }
-        function onMouseOutText(d, i) {            
+
+        function onMouseOutText(d, i) {
             var currClass = d3.select(this.parentNode).select("path").attr("class");
-            var prevClass = currClass.substring(0, currClass.length-8);
-            d3.select(this.parentNode).select("path").attr("class", prevClass);        
+            var prevClass = currClass.substring(0, currClass.length - 8);
+            d3.select(this.parentNode).select("path").attr("class", prevClass);
             d3.select(this).attr("class", "");
-        }       
+        }
+
         var margin = { top: 20, right: 80, bottom: 30, left: 50 },
             width = 960 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom,
@@ -147,6 +174,10 @@
                 .on("mouseover", onMouseOverText)
                 .on("mouseout", onMouseOutText);
         };
-        d3.json('/api/TimeSeriesData', displayChart);        
+        d3.json('/api/TimeSeriesData', displayChart);
+
+        $("select#group").change(function() {
+            d3.json('/api/TimeSeriesData', displayChart);
+        });
     </script>
 }
