@@ -21,7 +21,16 @@ namespace GF.FeatureWise.Services.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "FeatureWise Home";            
-            ViewBag.Features = featureRepository.GetAll();
+            IDictionary<string, List<Feature>> map = new Dictionary<string, List<Feature>>();
+            foreach (var feature in featureRepository.GetAll())
+            {
+                List<Feature> group;
+                var groupName = feature.Group ?? "Ungrouped";
+                if (!map.TryGetValue(groupName, out group))
+                    map.Add(groupName, group = new List<Feature>());
+                group.Add(feature);
+            }
+            ViewBag.Features = map;
             return View();
         }
 

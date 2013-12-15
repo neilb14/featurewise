@@ -1,4 +1,6 @@
-﻿using GF.FeatureWise.Services.Controllers;
+﻿using System.Collections.Generic;
+using System.Linq;
+using GF.FeatureWise.Services.Controllers;
 using GF.FeatureWise.Services.Models;
 using Moq;
 using Xunit;
@@ -17,19 +19,38 @@ namespace Tests.Controllers
         }
 
         [Fact]
-        public void GetIndex_ShouldBuildListOfFeaturesWithSparklines()
+        public void GetIndex_ShouldBuildGroupsOfFeatures()
         {
             featureRepository.Setup(r => r.GetAll()).Returns(new[]
                 {
-                    new Feature {Sparkline="40,46,42"},
-                    new Feature {},
-                    new Feature {}
+                    new Feature {Name= "Moose", Group = "Admin"},
+                    new Feature {Name= "Rhino", Group = "User"},
+                    new Feature {Name= "Cheetah", Group = "User"}
                 });
             controller.Index();
-            var features = controller.ViewBag.Features;            
-            Assert.Equal(4, features.Count);         
-            Assert.Equal("40,46,42", features[0].Sparkline);
+            IDictionary<string, List<Feature>> features = controller.ViewBag.Features;            
+            Assert.Equal(2, features.Keys.Count);
+            Assert.True(features.ContainsKey("Admin"));
+            Assert.True(features.ContainsKey("User"));
+            var mooseFeature = features["Admin"].First();
+            Assert.Equal("Moose", mooseFeature.Name);            
             featureRepository.VerifyAll();
+        }
+
+        [Fact]
+        public void GetIndex_ShouldCollectUngroupedFeatures()
+        {
+            featureRepository.Setup(r => r.GetAll()).Returns(new[]
+                {
+                    new Feature {Name= "Moose"},
+                    new Feature {Name= "Rhino"},
+                    new Feature {Name= "Cheetah"}
+                });
+            controller.Index();
+            IDictionary<string, List<Feature>> features = controller.ViewBag.Features;
+            Assert.Equal(1, features.Keys.Count);
+            Assert.True(features.ContainsKey("Ungrouped"));            
+            Assert.Equal(3, features["Ungrouped"].Count());
         }
     }
 }
