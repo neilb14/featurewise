@@ -8,13 +8,15 @@ namespace GF.FeatureWise.Services.Controllers
     public class HomeController : Controller
     {
         private readonly ITimeSeriesRepository repository;
+        private readonly IFeatureRepository featureRepository;
 
-        public HomeController(ITimeSeriesRepository repository)
+        public HomeController(ITimeSeriesRepository repository, IFeatureRepository featureRepository)
         {
             this.repository = repository;
+            this.featureRepository = featureRepository;
         }
 
-        public HomeController() : this(new TimeSeriesRepository(new ApiDataContext()))
+        public HomeController() : this(new TimeSeriesRepository(new ApiDataContext()), new FeatureRepository(new ApiDataContext()))
         {
         }
 

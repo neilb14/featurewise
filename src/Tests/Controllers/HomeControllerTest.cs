@@ -14,7 +14,7 @@ namespace Tests.Controllers
         public HomeControllerTest()
         {
             timeSeriesRepository = new Mock<ITimeSeriesRepository>();
-            controller = new HomeController(timeSeriesRepository.Object);
+            controller = new HomeController(timeSeriesRepository.Object, null);
         }
 
         [Fact]

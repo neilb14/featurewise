@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using GF.FeatureWise.Services.Models;
 using Xunit;
 
@@ -42,34 +40,6 @@ namespace Tests.Models
             Assert.Equal(4, timeSeries.Starts);
             Assert.Equal(40 * 60, timeSeries.Duration);
             Assert.Equal(TEN_MINUTES, timeSeries.AverageDuration);
-        }
-
-        [Fact]
-        public void ShouldGroupGeneratedTimeSeriesByDate()
-        {
-            var userEvents = new[]
-                {
-                    new UserEvent {At = new DateTime(2013, 07, 17), Feature = "Moose", Type = "tick"},
-                    new UserEvent {At = new DateTime(2013, 07, 17), Feature = "Moose", Type = "tick"},
-                    new UserEvent {At = new DateTime(2013, 07, 18), Feature = "Moose", Type = "tick"}
-                };
-            IEnumerable<TimeSeries> results = TimeSeries.Generate(userEvents);
-            Assert.Equal(2, results.Count());
-        }
-
-        [Fact]
-        public void ShouldGroupGenerateTimeSeriesByFeatureAndDate()
-        {
-            var userEvents = new[]
-                {
-                    new UserEvent {At = new DateTime(2013, 07, 17), Feature = "Moose", Type = "tick"},
-                    new UserEvent {At = new DateTime(2013, 07, 17), Feature = "Moose", Type = "tick"},
-                    new UserEvent {At = new DateTime(2013, 07, 17), Feature = "Beaver", Type = "tick"},
-                    new UserEvent {At = new DateTime(2013, 07, 18), Feature = "Moose", Type = "tick"},
-                    new UserEvent {At = new DateTime(2013, 07, 18), Feature = "Beaver", Type = "tick"}
-                };
-            IEnumerable<TimeSeries> results = TimeSeries.Generate(userEvents);
-            Assert.Equal(4, results.Count());
         }
 
         private static void RegisterStartStop(TimeSeries timeSeries, DateTime startAt, int duration_in_seconds)

@@ -12,26 +12,30 @@ namespace Tests.Controllers
         private readonly TimeSeriesController controller;
         private readonly Mock<ITimeSeriesRepository> timeSeriesRepository;
         private readonly Mock<IUserEventRepository> userEventRepository;
+        private readonly Mock<IGenerate<TimeSeries>> generateTimeSeries;
 
         public TimeSeriesControllerTest()
         {
             timeSeriesRepository = new Mock<ITimeSeriesRepository>();
             userEventRepository = new Mock<IUserEventRepository>();
-            controller = new TimeSeriesController(timeSeriesRepository.Object,userEventRepository.Object);
+            generateTimeSeries = new Mock<IGenerate<TimeSeries>>();
+            controller = new TimeSeriesController(timeSeriesRepository.Object,userEventRepository.Object, generateTimeSeries.Object);
         }
 
         [Fact]
         public void ShouldGenerateTimeSeries()
         {
-            userEventRepository.Setup(r => r.GetAll()).Returns(new UserEvent[]
+            var userEvents = new UserEvent[]
                 {
-                    new UserEvent{Type = "tick",Feature = "Moose",At=DateTime.Now}, 
-                    new UserEvent{Type = "tick",Feature = "Beaver",At=DateTime.Now}, 
-                    new UserEvent{Type = "tick",Feature = "Goose",At=DateTime.Now}, 
-                });
+                    new UserEvent {Type = "tick", Feature = "Moose", At = DateTime.Now}, new UserEvent {Type = "tick", Feature = "Beaver", At = DateTime.Now}, new UserEvent {Type = "tick", Feature = "Goose", At = DateTime.Now},
+                };
+            var expectedTimeSeries = new TimeSeries();
+            userEventRepository.Setup(r => r.GetAll()).Returns(userEvents);
+            generateTimeSeries.Setup(g => g.Generate(userEvents)).Returns(new [] {expectedTimeSeries});
             timeSeriesRepository.Setup(r => r.DeleteAll());
-            timeSeriesRepository.Setup(r => r.Add(It.IsAny<TimeSeries>()));
+            timeSeriesRepository.Setup(r => r.Add(expectedTimeSeries));
             var result = controller.Generate() as RedirectResult;
+            generateTimeSeries.VerifyAll();
             timeSeriesRepository.VerifyAll();
             Assert.NotNull(result);
             Assert.Equal("/TimeSeries", result.Url);

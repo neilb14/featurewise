@@ -59,6 +59,8 @@
     <Compile Include="Controllers\TimeSeriesControllerTest.cs" />
     <Compile Include="Controllers\UserEventControllerTest.cs" />
     <Compile Include="Controllers\WorkbenchControllerTest.cs" />
+    <Compile Include="Models\FeatureTest.cs" />
+    <Compile Include="Models\GenerateTimeSeriesTest.cs" />
     <Compile Include="Models\HistogramTest.cs" />
     <Compile Include="Models\TimeSeriesTest.cs" />
     <Compile Include="Models\UserEventTest.cs" />

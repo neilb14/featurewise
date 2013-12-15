@@ -8,11 +8,13 @@ namespace GF.FeatureWise.Services.Controllers
     {
         private readonly ITimeSeriesRepository repository;
         private readonly IUserEventRepository userEventRepository;
+        private readonly IGenerate<TimeSeries> generateTimeSeries;
 
-        public TimeSeriesController(ITimeSeriesRepository repository, IUserEventRepository userEventRepository)
+        public TimeSeriesController(ITimeSeriesRepository repository, IUserEventRepository userEventRepository, IGenerate<TimeSeries> generateTimeSeries)
         {
             this.repository = repository;
             this.userEventRepository = userEventRepository;
+            this.generateTimeSeries = generateTimeSeries;
         }
 
         public TimeSeriesController():this(new ApiDataContext())
@@ -20,7 +22,7 @@ namespace GF.FeatureWise.Services.Controllers
         }
 
         public TimeSeriesController(ApiDataContext context)
-            : this(new TimeSeriesRepository(context), new UserEventRepository(context))
+            : this(new TimeSeriesRepository(context), new UserEventRepository(context), new GenerateTimeSeries())
         {
         }
 
@@ -34,7 +36,7 @@ namespace GF.FeatureWise.Services.Controllers
         public ActionResult Generate()
         {
             repository.DeleteAll();
-            foreach (var timeSeries in TimeSeries.Generate(userEventRepository.GetAll()))
+            foreach (var timeSeries in generateTimeSeries.Generate(userEventRepository.GetAll()))
             {
                 repository.Add(timeSeries);
             }                        

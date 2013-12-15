@@ -5,8 +5,9 @@ namespace GF.FeatureWise.Services
 {
     public class ApiDataContext : DbContext
     {
-        public DbSet<UserEvent> UserEvents { get; set; }
-        public DbSet<TimeSeries> TimeSeries { get; set; }
-        public DbSet<Histogram> Histograms { get; set; }
+        public virtual DbSet<UserEvent> UserEvents { get; set; }
+        public virtual DbSet<TimeSeries> TimeSeries { get; set; }
+        public virtual DbSet<Histogram> Histograms { get; set; }
+        public virtual DbSet<Feature> Features { get; set; }
     }
 }
