@@ -28,10 +28,10 @@ namespace GF.FeatureWise.Services.App_Start
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                        "~/Content/custom.css",
                         "~/Content/bootstrap.css",
                         "~/Content/bootstrap-responsive.css",
-                        "~/Content/jquery.dataTables.css",
-                        "~/Content/custom.css"));
+                        "~/Content/jquery.dataTables.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
