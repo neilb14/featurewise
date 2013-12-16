@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using GF.FeatureWise.Services.Models;
 using GF.FeatureWise.Services.Repositories;
 
@@ -8,17 +9,23 @@ namespace GF.FeatureWise.Services.Controllers
     {
         private readonly IHistogramRepository repository;
         private readonly IUserEventRepository userEventRepository;
+        private readonly IFeatureRepository featureRepository;
         private readonly IGenerate<Histogram> generateHistogram;
 
-        public HistogramController(IHistogramRepository repository, IUserEventRepository userEventRepository, IGenerate<Histogram> generateHistogram)
+        public HistogramController(IHistogramRepository repository, IUserEventRepository userEventRepository, IGenerate<Histogram> generateHistogram, IFeatureRepository featureRepository)
         {
             this.repository = repository;
             this.userEventRepository = userEventRepository;
             this.generateHistogram = generateHistogram;
+            this.featureRepository = featureRepository;
         }
 
-        public HistogramController(ApiDataContext context): this(new HistogramRepository(context), new UserEventRepository(context), new GenerateFeatureDecorator<Histogram>(new GenerateHistogram(), new FeatureRepository(context)))
+        public HistogramController(ApiDataContext context, IFeatureRepository featureRepository): this(new HistogramRepository(context), new UserEventRepository(context), new GenerateFeatureDecorator<Histogram>(new GenerateHistogram(), featureRepository), featureRepository)
         {            
+        }
+
+        public HistogramController(ApiDataContext context) : this(context, new FeatureRepository(context))
+        {
         }
 
         public HistogramController():this(new ApiDataContext())
@@ -27,6 +34,10 @@ namespace GF.FeatureWise.Services.Controllers
 
         public ActionResult Index(string accessor = "TotalUsage")
         {
+            var features = featureRepository.GetAll().ToArray();
+            var groups = features.Select(feature => feature.Group).Distinct().ToList();
+            ViewBag.Groups = groups;
+            ViewBag.Features = features;
             ViewBag.Accessor = accessor;
             return View();
         }

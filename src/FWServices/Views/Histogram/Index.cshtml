@@ -24,6 +24,13 @@
                 <option value="Starts">Starts</option>
                 <option value="AverageDuration">Average Duration</option>
             </select>
+            <select id="group">
+                <option value="all">All Groups</option>
+                @foreach (var group in ViewBag.Groups)
+                {
+                    <option value="@group">@group</option>
+                }
+            </select>
         </div>
     </div>
     <div class="span6">
@@ -47,6 +54,13 @@
         $("select#chart_type").change(function() {
             document.location.href = '/Histogram?accessor=' + $(this).val();
         });
+        var groupMap = {};
+        @foreach (var feature in ViewBag.Features)
+        {
+            <text>        
+        groupMap['@(feature.Name)'] = '@(feature.Group)';
+        </text>
+        }
         var margin = { top: 20, right: 80, bottom: 30, left: 50 },
             width = 960 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom,
@@ -55,7 +69,17 @@
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom);
         var displayChart = function(dataset) {
+            if ($("select#group").val() != 'all') {
+                dataset = dataset.filter(function(d) {
+                    return $("select#group").val() == groupMap[d.Feature];
+                });
+            }
             dataset.forEach(function(d) {
+                var group = groupMap[d.Feature];
+                if (group === undefined) {
+                    group = "Ungrouped";
+                }
+                d.Group = group;
                 d.TotalUsage = d.Starts + d.Ticks;
             });
             color.domain(dataset.map(function(d) { return d.Feature; }));
@@ -63,6 +87,7 @@
                 .data(dataset)
                 .enter()
                 .append("rect")
+                .attr("group", function(d) { return d.Group; })
                 .attr("x", function(d, i) { return i * (width / dataset.length); })
                 .attr("y", function(d) { return height - d.@(ViewBag.Accessor); })
                 .attr("width", width / dataset.length - barPadding)
@@ -73,6 +98,7 @@
                 .enter();
             texts.append("text")
                 .text(function(d) { return d.@(ViewBag.Accessor); })
+                .attr("group", function(d) { return d.Group; })
                 .attr("x", function(d, i) {
                     return i * (width / dataset.length) + 4;
                 })
@@ -81,11 +107,18 @@
                 })
                 .attr("class", "value");
             texts.append("text")
-                    .text(function(d) { return d.Feature; })
-                    .attr("x", function(d, i) { return i * (width / dataset.length) + 4; })
-                    .attr("y", function(d) { return height + 16; })
-                    .attr("class", "feature");
+                .text(function(d) { return d.Feature; })
+                .attr("group", function(d) { return d.Group; })
+                .attr("x", function(d, i) { return i * (width / dataset.length) + 4; })
+                .attr("y", function(d) { return height + 16; })
+                .attr("class", "feature");
         };
         d3.json('/api/HistogramData', displayChart);
+
+        $("select#group").change(function() {
+            svg.selectAll("rect").remove();
+            svg.selectAll("text").remove();
+            d3.json('/api/HistogramData', displayChart);
+        });
     </script>
 }
