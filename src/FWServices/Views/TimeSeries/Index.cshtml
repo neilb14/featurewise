@@ -66,21 +66,13 @@
         $("select#chart_type").change(function() {
             document.location.href = '/TimeSeries?accessor=' + $(this).val();
         });
-        var groupMap = { all: [], Ungrouped:[] };
-        @foreach (var group in ViewBag.Groups)
-        {
-            <text>                        
-        groupMap['@(group)'] = []; 
-        
-        </text>
-        }
+        var groupMap = {};
         @foreach (var feature in ViewBag.Features)
         {
-            <text>
-        groupMap['all'].push('@(feature.Name)');
-        groupMap['@(feature.Group ?? "Ungrouped")'].push('@(feature.Name)');
-        </text>
-        }            
+            <text>        
+            groupMap['@(feature.Name)'] = '@(feature.Group)';
+            </text>
+        }
 
         function onMouseOverPath(d, i) {
             var pathClass = d3.select(this).attr("class");
@@ -135,6 +127,7 @@
                 d.Date = new Date(d.Year, d.Month - 1, d.Day);
                 d.TotalUsage = d.Starts + d.Ticks;
                 d.Key = dateKey(d);
+                d.Group = groupMap[d.Feature];
             });
             var data = d3.nest()
                 .key(function(d) { return d.Feature; })
@@ -158,7 +151,8 @@
             var feature = svg.selectAll(".feature")
                 .data(data)
                 .enter().append("g")
-                .attr("class", "feature");
+                .attr("class", "feature")
+                .attr("group", function (d) { return d.values[d.values.length-1].Group; });
             feature.append("path")
                 .attr("class", "line")
                 .attr("d", function(d) { return line(d.values); })
@@ -177,7 +171,13 @@
         d3.json('/api/TimeSeriesData', displayChart);
 
         $("select#group").change(function() {
-            d3.json('/api/TimeSeriesData', displayChart);
+            var selectedGroup = $(this).val();
+            if (selectedGroup == 'all') {
+                svg.selectAll(".feature").style("display", "block");
+            } else {
+                svg.selectAll(".feature").style("display", "none");
+                svg.selectAll('.feature[group=' + selectedGroup + ']').style("display", "block");    
+            }            
         });
     </script>
 }
