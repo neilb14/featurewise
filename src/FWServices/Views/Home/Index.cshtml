@@ -17,16 +17,21 @@
             foreach (var feature in ViewBag.Features[group])
             {
                 <li>
-                    <span class="inlinesparkline">@feature.Sparkline</span>
-                    @feature.Name 
-                    <a class="edit" href="@feature.Name">[Edit]</a>
+                    <div>
+                        <span class="inlinesparkline">@feature.Sparkline</span>
+                        @feature.Name 
+                        <a class="edit" href="@feature.Name">[Edit]</a>
+                    </div>
+                    <div class="featurePanel" id="featurePanel_@(feature.Name)">@feature.Notes</div>
                     <div id="edit_@(feature.Name)" class="editFeature">
                         <label for="group_@(feature.Name)">Group:</label>
                         <input type="text" name="group" id="group_@(feature.Name)" value="@feature.Group"/>
+                        <label for="notes_@(feature.Name)">Notes:</label>
+                        <textarea id="notes_@(feature.Name)" name="notes">@feature.Notes</textarea>
                         <br/>
                         <button id="close">Close</button>
                         <button id="save">Save</button>
-                    </div>
+                    </div>                    
                 </li>
             }
         }
@@ -39,13 +44,14 @@
         $('.inlinesparkline').sparkline();
         $("a.edit").click(function() {
             var feature = $(this).attr("href");
+            $("#featurePanel_" + feature).slideUp();
             $("#edit_" + feature).slideDown();
-            $("#edit_" + feature + " button#close").click(function() {
+            $("#edit_" + feature + " button#close").click(function () {                
                 $("#edit_" + feature + " button#close").unbind("click");
                 $("#edit_" + feature).slideUp();
+                $("#featurePanel_" + feature).slideDown();
             });
-            $("#edit_" + feature + " button#save").click(function() {
-                console.log("Saving #edit_" + feature);
+            $("#edit_" + feature + " button#save").click(function() {                
                 $.ajax({
                     type: 'PUT',
                     url: '/api/Feature',
@@ -53,13 +59,11 @@
                         id: '',
                         name: feature,
                         group: $("#edit_" + feature + " input[name=group]").val(),
-                        notes: '',
+                        notes: $("#edit_" + feature + " textarea[name=notes]").val(),
                         sparkline: ''
                     }
-                }).done(function () {
-                    console.log('Saved ' + feature + '.');
-                    $("#edit_" + feature + " button#save").unbind("click");
-                    $("#edit_" + feature).slideUp();
+                }).done(function () {                    
+                    document.location.href = '/';
                 });                
             });
             return false;
