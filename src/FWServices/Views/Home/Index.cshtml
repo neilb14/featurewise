@@ -9,34 +9,68 @@
         </div>
     </section>
 }
-<h3>Active Features</h3>
-<ul class="clean">
-        @foreach (var group in ViewBag.Features.Keys)
-        {            
-            <h3>@group</h3>
-            foreach (var feature in ViewBag.Features[group])
-            {
-                <li>
-                    <div>
-                        <span class="inlinesparkline">@feature.Sparkline</span>
-                        @feature.Name 
-                        <a class="edit" href="@feature.Name">[Edit]</a>
-                    </div>
-                    <div class="featurePanel" id="featurePanel_@(feature.Name)">@feature.Notes</div>
-                    <div id="edit_@(feature.Name)" class="editFeature">
-                        <label for="group_@(feature.Name)">Group:</label>
-                        <input type="text" name="group" id="group_@(feature.Name)" value="@feature.Group"/>
-                        <label for="notes_@(feature.Name)">Notes:</label>
-                        <textarea id="notes_@(feature.Name)" name="notes">@feature.Notes</textarea>
-                        <br/>
-                        <button id="close">Close</button>
-                        <button id="save">Save</button>
-                    </div>                    
-                </li>
-            }
-        }
-</ul>
+<style>
 
+body {  
+  shape-rendering: crispEdges;
+}
+
+.day {
+  fill: #fff;
+  stroke: #ccc;
+}
+
+.month {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2px;
+}
+
+.RdYlGn .q0-9{fill:#ffffe5}
+.RdYlGn .q1-9{fill:#f7fcb9}
+.RdYlGn .q2-9{fill:#d9f0a3}
+.RdYlGn .q3-9{fill:#addd8e}
+.RdYlGn .q4-9{fill:#78c679}
+.RdYlGn .q5-9{fill:#41ab5d}
+.RdYlGn .q6-9{fill:#238443}
+.RdYlGn .q7-9{fill:#006837}
+.RdYlGn .q8-9{fill:#004529}
+
+</style>
+<h3>Active Features</h3>
+<div class="row">
+    <div class="span4">
+        <ul class="clean">
+            @foreach (var group in ViewBag.Features.Keys)
+            {            
+                <h3>@group</h3>
+                foreach (var feature in ViewBag.Features[group])
+                {
+                    <li>
+                        <div>
+                            <span class="inlinesparkline">@feature.Sparkline</span>
+                            @feature.Name 
+                            <a class="edit" href="@feature.Name">[Edit]</a>
+                        </div>
+                        <div class="featurePanel" id="featurePanel_@(feature.Name)">@feature.Notes</div>
+                        <div id="edit_@(feature.Name)" class="editFeature">
+                            <label for="group_@(feature.Name)">Group:</label>
+                            <input type="text" name="group" id="group_@(feature.Name)" value="@feature.Group"/>
+                            <label for="notes_@(feature.Name)">Notes:</label>
+                            <textarea id="notes_@(feature.Name)" name="notes">@feature.Notes</textarea>
+                            <br/>
+                            <button id="close">Close</button>
+                            <button id="save">Save</button>
+                        </div>                    
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+    <div class="span8">
+        <div id="calendar"></div>
+    </div>
+</div>
 
 @section scripts {
     <script type="text/javascript">
@@ -46,12 +80,12 @@
             var feature = $(this).attr("href");
             $("#featurePanel_" + feature).slideUp();
             $("#edit_" + feature).slideDown();
-            $("#edit_" + feature + " button#close").click(function () {                
+            $("#edit_" + feature + " button#close").click(function() {
                 $("#edit_" + feature + " button#close").unbind("click");
                 $("#edit_" + feature).slideUp();
                 $("#featurePanel_" + feature).slideDown();
             });
-            $("#edit_" + feature + " button#save").click(function() {                
+            $("#edit_" + feature + " button#save").click(function() {
                 $.ajax({
                     type: 'PUT',
                     url: '/api/Feature',
@@ -62,11 +96,82 @@
                         notes: $("#edit_" + feature + " textarea[name=notes]").val(),
                         sparkline: ''
                     }
-                }).done(function () {                    
+                }).done(function() {
                     document.location.href = '/';
-                });                
+                });
             });
             return false;
         });
+        var width = 800,
+            height = 136,
+            cellSize = 14;
+// cell size
+
+        var day = d3.time.format("%w"),
+            week = d3.time.format("%U"),
+            percent = d3.format(".1%"),
+            format = d3.time.format("%Y-%m-%d"),
+            today = new Date();
+
+        var color = d3.scale.quantize()
+            .domain([0, 300])
+            .range(d3.range(9).map(function(d) { return "q" + d + "-9"; }));
+
+        var svg = d3.select("#calendar")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("class", "RdYlGn")
+            .append("g")
+            .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
+
+        svg.append("text")
+            .attr("transform", "translate(-6," + cellSize * 3.5 + ")rotate(-90)")
+            .style("text-anchor", "middle")
+            .text("2013");
+
+        var rect = svg.selectAll(".day")
+            .data(d3.time.days(new Date(today.getFullYear() - 1, today.getMonth(), today.getDay()), today))
+            .enter().append("rect")
+            .attr("class", "day")
+            .attr("width", cellSize)
+            .attr("height", cellSize)
+            .attr("x", function(d) { return week(d) * cellSize; })
+            .attr("y", function(d) { return day(d) * cellSize; })
+            .datum(format);
+
+        rect.append("title")
+            .text(function(d) { return d; });
+
+        svg.selectAll(".month")
+            .data(d3.time.months(new Date(today.getFullYear() - 1, today.getMonth(), today.getDay()), today))
+            .enter().append("path")
+            .attr("class", "month")
+            .attr("d", monthPath);
+
+        d3.json("/api/TimeSeriesData", function(dataset) {
+            var data = d3.nest()
+                .key(function (d) { return format(new Date(parseInt(d.Year), parseInt(d.Month)-1, parseInt(d.Day))); })
+                .rollup(function(leaves) { return d3.sum(leaves, function(d) {return parseInt(d.Ticks)});})
+                .map(dataset);
+
+            rect.filter(function (d) {return d in data; })
+                .attr("class", function(d) { return "day " + color(data[d]); })
+                .select("title")
+                .text(function(d) { return d + ": " + data[d]; });
+        });
+
+        function monthPath(t0) {
+            var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
+                d0 = +day(t0), w0 = +week(t0),
+                d1 = +day(t1), w1 = +week(t1);
+            return "M" + (w0 + 1) * cellSize + "," + d0 * cellSize
+                + "H" + w0 * cellSize + "V" + 7 * cellSize
+                + "H" + w1 * cellSize + "V" + (d1 + 1) * cellSize
+                + "H" + (w1 + 1) * cellSize + "V" + 0
+                + "H" + (w0 + 1) * cellSize + "Z";
+        }
+
+        d3.select(self.frameElement).style("height", "2910px");
     </script>
 }
