@@ -17,12 +17,12 @@ random_duration = lambda x,min_duration,max_duration : random.gauss((max_duratio
 increasing_duration = lambda x,min_duration,max_duration : linear_increase(x,min_duration,max_duration)
 decreasing_duration = lambda x,min_duration,max_duration : linear_decrease(x,min_duration,max_duration)
 
-start = datetime.datetime.now()
-end_time = datetime.datetime.now() + timedelta(hours=24*14)
+start = datetime.datetime.now() - timedelta(weeks=52)
+end_time = datetime.datetime.now()
 events = []
 
 def user(env, name, duration, min_duration, max_duration):
-	yield env.timeout(5)
+	yield env.timeout(30)
 	current_time = start
 	print("Current Time: %s" % current_time.hour)
 	while current_time < end_time:
@@ -30,16 +30,19 @@ def user(env, name, duration, min_duration, max_duration):
 		if(current_time.hour < 17 and current_time.hour > 8):
 			print("[%d] %s event at %s" % (env.now, name, current_time))
 			events.append({'name':name,'at':current_time, 'type':'tick'})
-			yield env.timeout(duration(env.now, min_duration, max_duration))
+			duration_in_s = duration(env.now, min_duration, max_duration)
+			while(duration_in_s < 0):
+				duration_in_s = duration(env.now, min_duration, max_duration)			
+			yield env.timeout(duration_in_s)
 		else:
 			yield env.timeout(15*60)
 
 env = simpy.Environment()
-env.process(user(env, 'rhino', decreasing_duration, 30, 1200))
+#env.process(user(env, 'rhino', decreasing_duration, 30, 1200))
 env.process(user(env, 'cheetah', increasing_duration, 600, 2000))
 env.process(user(env, 'moose', random_duration, 200, 6000))
 env.process(user(env, 'lion', increasing_duration, 400, 3000))
-env.process(user(env, 'mouse', decreasing_duration, 50, 1000))
+#env.process(user(env, 'mouse', decreasing_duration, 50, 1000))
 env.process(user(env, 'hippo', increasing_duration, 900, 4000))
 env.process(user(env, 'giraffe', random_duration, 1000,10000))
 env.run()
