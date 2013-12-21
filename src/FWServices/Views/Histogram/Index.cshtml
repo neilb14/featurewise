@@ -83,15 +83,16 @@
                 d.TotalUsage = d.Starts + d.Ticks;
             });
             color.domain(dataset.map(function(d) { return d.Feature; }));
+            var scale = d3.scale.linear().domain([0, d3.max(dataset, function(d) { return d.@(ViewBag.Accessor); })]).range([0, height]);
             svg.selectAll("rect")
                 .data(dataset)
                 .enter()
                 .append("rect")
                 .attr("group", function(d) { return d.Group; })
                 .attr("x", function(d, i) { return i * (width / dataset.length); })
-                .attr("y", function(d) { return height - d.@(ViewBag.Accessor); })
+                .attr("y", function(d) { return height - scale(d.@(ViewBag.Accessor));})
                 .attr("width", width / dataset.length - barPadding)
-                .attr("height", function(d) { return d.@(ViewBag.Accessor); })
+                .attr("height", function(d) { return scale(d.@(ViewBag.Accessor)); })
                 .attr("fill", function(d) { return color(d.Feature); });
             var texts = svg.selectAll("text")
                 .data(dataset)
@@ -103,7 +104,7 @@
                     return i * (width / dataset.length) + 4;
                 })
                 .attr("y", function(d) {
-                    return height - d.@(ViewBag.Accessor) + 16;
+                    return height - scale(d.@(ViewBag.Accessor)) + 16;
                 })
                 .attr("class", "value");
             texts.append("text")
