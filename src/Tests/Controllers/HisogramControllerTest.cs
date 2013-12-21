@@ -13,17 +13,19 @@ namespace Tests.Controllers
         private readonly Mock<IHistogramRepository> histogramRepository;
         private readonly Mock<IUserEventRepository> userEventRepository;
         private Mock<IGenerate<Histogram>> generateHistogram;
+        private Mock<IFeatureRepository> featureRepository;
 
         public HisogramControllerTest()
         {
             histogramRepository = new Mock<IHistogramRepository>();
             userEventRepository = new Mock<IUserEventRepository>();
             generateHistogram = new Mock<IGenerate<Histogram>>();
-            controller = new HistogramController(histogramRepository.Object, userEventRepository.Object, generateHistogram.Object);
+            featureRepository = new Mock<IFeatureRepository>();
+            controller = new HistogramController(histogramRepository.Object, userEventRepository.Object, generateHistogram.Object,featureRepository.Object);
         }
 
         [Fact]
-        public void ShouldGenerateTimeSeries()
+        public void ShouldGenerateHistogram()
         {
             var userEvents = new[]
                 {
@@ -34,6 +36,7 @@ namespace Tests.Controllers
             generateHistogram.Setup(g => g.Generate(userEvents)).Returns(new[] {expectedHistogram});
             histogramRepository.Setup(r => r.DeleteAll());
             histogramRepository.Setup(r => r.Add(expectedHistogram));
+            featureRepository.Setup(r => r.GetAll()).Returns(new Feature[0]);
             var result = controller.Generate() as RedirectResult;
             generateHistogram.VerifyAll();
             histogramRepository.VerifyAll();

@@ -8,6 +8,7 @@ namespace GF.FeatureWise.Services.Controllers
 {
     public class TimeSeriesController : Controller
     {
+        private const int SPARKLINE_LENGTH_IN_DAYS = 30;
         private readonly ApiDataContext context;
         private readonly ITimeSeriesRepository timeSeriesRepository;
         private readonly IFeatureRepository featureRepository;
@@ -50,24 +51,19 @@ namespace GF.FeatureWise.Services.Controllers
         public ActionResult Generate()
         {            
             timeSeriesRepository.DeleteAll();
-            var map = new Dictionary<string, string>();
+            var map = new Dictionary<string, IBuildSparkline>();
             foreach (var timeSeries in generateTimeSeries.Generate(userEventRepository.GetAll()))
             {
                 timeSeriesRepository.Add(timeSeries);
-                string data;
-                if (map.TryGetValue(timeSeries.Feature, out data))
-                {
-                    map[timeSeries.Feature] = string.Format("{0},{1}", data, timeSeries.Ticks + timeSeries.Starts);
-                }
-                else
-                {
-                    map.Add(timeSeries.Feature, (timeSeries.Ticks + timeSeries.Starts).ToString());
-                }   
+                IBuildSparkline builder;
+                if (!map.TryGetValue(timeSeries.Feature, out builder))
+                    map.Add(timeSeries.Feature, builder = new SparklineBuilder());
+                builder.Add(timeSeries.Ticks + timeSeries.Starts);                                    
             }
             foreach (var name in map.Keys)
             {
                 var feature = featureRepository.Get(name);
-                feature.Sparkline = map[name];                
+                feature.Sparkline = map[name].Build(SPARKLINE_LENGTH_IN_DAYS);                
             }
             context.SaveChanges();
             return new RedirectResult("/TimeSeries");
