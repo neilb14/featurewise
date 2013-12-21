@@ -1,4 +1,4 @@
 body { margin-top: 40px;}
-a .edit { font-size: small; }
-ul .clean { list-style-type: none; }
+a.edit { font-size: small; }
+ul.simple { list-style-type: none; }
 .editFeature { display: none;}
