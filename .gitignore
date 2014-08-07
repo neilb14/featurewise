@@ -152,7 +152,10 @@ $RECYCLE.BIN/
 # Mac desktop service store files
 .DS_Store
 
+# FWClient NuGet Packages
+src/FWClient/Featurewise*.nupkg
 
 #custom
 scripts/data.csv
 FeatureWise.sln.ide/
+
