@@ -26,12 +26,17 @@ some of the more fundamental metrics such as usage counts and durations.  It is 
 
 Getting Started
 ===============
-FeatureWise is an ASP.NET MVC4 application (with a dash of WebAPI).  So you can host it right in IIS, or on Azure.  To get started you're going to need Visual Studio with .NET 4.5 and SQLServer.
+The FeatureWise server is an ASP.NET MVC4 application (with a dash of WebAPI).  So you can host it right in IIS, or on Azure. To get started you're going to need Visual Studio with .NET 4.5 and SQLServer.
 
-There is also a client library which you can embed in your application.  The client provides a simple API for you to send 
-usage events off to the server.  Configuration of the client is fairly simple, just define the hostname of your server
-in the FeatureWise.Hostname configuration property of your App.Config.  There is a singleton called FeatureWise that 
-you will use to track usage events in your application.  For example:
+There is also a .NET client library based on the 4.5 Framework which you can reference from your application.  The client is available as a NuGet package or by referencing the output assembly of the FWClient project: FeatureWise.dll. The client provides a simple API for you to send usage events off to the server.  Configuration of the client is fairly simple, just define the hostname of your server in the FeatureWise.Hostname configuration property of your App.Config.  There is a singleton called FeatureWise that you will use to track usage events in your application.  For example:
+
+`FeatureWise.Tick("feature1")`
+
+`FeatureWise.Start("feature2")`
+
+`FeatureWise.Stop("feature2")`
+
+Or if you want control over the timestamps:
 
 `FeatureWise.Tick("feature1", DateTime.UtcNow)`
 
@@ -43,15 +48,15 @@ you will use to track usage events in your application.  For example:
 Tracking Usage
 ===============
 The simplest way to track usage is with Ticks.  Any time a user triggers a particular feature you can send a Tick event
-off.  This will show up in any of the usage charts.
+off.  Ticks are useful to collect frequency counts and will show up in all of the usage charts.
 
 The other way to track usage is through Elapsed Time.  To use elapsed time you can send a Start event when the user
 triggers a feature and a Stop when the feature is done.  This can help you identify tasks that might be taking longer
-than others.
+than others and help to understand how long users spend in particular forms and performing specific tasks.
 
 Generating Reports
 ==================
-To generate a report simply click the "Generate" button on the report page.  Currently reports are generated within the web request.  I suspect we will quickly outgrow this and have to move to some kind of ETL process.
+To generate a report simply visit the service web page and click the "Generate" button on the report page.  Currently reports are generated within the web request.  I suspect we will quickly outgrow this and have to move to some kind of ETL process.
 
 Development
 ===========
