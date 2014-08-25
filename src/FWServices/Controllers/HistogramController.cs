@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using GF.FeatureWise.Services.Models;
 using GF.FeatureWise.Services.Repositories;
+using Hangfire;
 
 namespace GF.FeatureWise.Services.Controllers
 {
@@ -46,13 +47,17 @@ namespace GF.FeatureWise.Services.Controllers
         [HttpPost]
         public ActionResult Generate()
         {
+            BackgroundJob.Enqueue(() => GenerateReport());
+            return new RedirectResult("/Histogram");
+        }
+
+        public void GenerateReport()
+        {
             repository.DeleteAll();
             foreach (var histogram in generateHistogram.Generate(userEventRepository.GetAll()))
             {
                 repository.Add(histogram);
             }
-            return new RedirectResult("/Histogram");
         }
-
     }
 }

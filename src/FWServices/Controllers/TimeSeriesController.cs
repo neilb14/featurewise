@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using GF.FeatureWise.Services.Models;
 using GF.FeatureWise.Services.Repositories;
+using Hangfire;
 
 namespace GF.FeatureWise.Services.Controllers
 {
@@ -49,7 +50,13 @@ namespace GF.FeatureWise.Services.Controllers
 
         [HttpPost]
         public ActionResult Generate()
-        {            
+        {
+            BackgroundJob.Enqueue(() => GenerateReports());
+            return new RedirectResult("/TimeSeries");
+        }
+
+        public void GenerateReports()
+        {
             timeSeriesRepository.DeleteAll();
             var map = new Dictionary<string, IBuildSparkline>();
             foreach (var timeSeries in generateTimeSeries.Generate(userEventRepository.GetAll()))
@@ -58,15 +65,14 @@ namespace GF.FeatureWise.Services.Controllers
                 IBuildSparkline builder;
                 if (!map.TryGetValue(timeSeries.Feature, out builder))
                     map.Add(timeSeries.Feature, builder = new SparklineBuilder());
-                builder.Add(timeSeries.Ticks + timeSeries.Starts);                                    
+                builder.Add(timeSeries.Ticks + timeSeries.Starts);
             }
             foreach (var name in map.Keys)
             {
                 var feature = featureRepository.Get(name);
-                feature.Sparkline = map[name].Build(SPARKLINE_LENGTH_IN_DAYS);                
+                feature.Sparkline = map[name].Build(SPARKLINE_LENGTH_IN_DAYS);
             }
             context.SaveChanges();
-            return new RedirectResult("/TimeSeries");
         }
     }
 }
