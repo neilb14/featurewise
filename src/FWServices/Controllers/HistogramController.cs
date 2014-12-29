@@ -48,7 +48,7 @@ namespace GF.FeatureWise.Services.Controllers
         public ActionResult Generate()
         {
             BackgroundJob.Enqueue(() => GenerateReport());
-            return new RedirectResult("/Histogram");
+            return RedirectToAction("Index", "Histogram");
         }
 
         public void GenerateReport()

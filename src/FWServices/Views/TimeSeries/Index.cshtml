@@ -64,7 +64,7 @@
         $("ul.nav li.time-series").addClass("active");
         $("select#chart_type").val('@ViewBag.Accessor');
         $("select#chart_type").change(function() {
-            document.location.href = '/TimeSeries?accessor=' + $(this).val();
+            document.location.href = './TimeSeries?accessor=' + $(this).val();
         });
         var groupMap = {};
         @foreach (var feature in ViewBag.Features)
@@ -168,7 +168,7 @@
                 .on("mouseover", onMouseOverText)
                 .on("mouseout", onMouseOutText);
         };
-        d3.json('/api/TimeSeriesData', displayChart);
+        d3.json('./api/TimeSeriesData', displayChart);
 
         $("select#group").change(function() {
             var selectedGroup = $(this).val();

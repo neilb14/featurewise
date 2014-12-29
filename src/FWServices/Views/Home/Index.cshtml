@@ -88,7 +88,7 @@ body {
             $("#edit_" + feature + " button#save").click(function() {
                 $.ajax({
                     type: 'PUT',
-                    url: '/api/Feature',
+                    url: './api/Feature',
                     data: {
                         id: '',
                         name: feature,
@@ -97,7 +97,7 @@ body {
                         sparkline: ''
                     }
                 }).done(function() {
-                    document.location.href = '/';
+                    document.location.href = '.';
                 });
             });
             return false;
@@ -148,7 +148,7 @@ body {
             .attr("class", "month")
             .attr("d", monthPath);
 
-        d3.json("/api/TimeSeriesData", function(dataset) {
+        d3.json("./api/TimeSeriesData", function(dataset) {
             var data = d3.nest()
                 .key(function (d) { return format(new Date(parseInt(d.Year), parseInt(d.Month)-1, parseInt(d.Day))); })
                 .rollup(function(leaves) { return d3.sum(leaves, function(d) {return parseInt(d.Ticks)});})

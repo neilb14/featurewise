@@ -34,9 +34,10 @@
         </div>
     </div>
     <div class="span6">
-        <form action="@Url.Action("Generate")" method="POST">
+        @using (Html.BeginForm("Generate", "Histogram", FormMethod.Post))
+        {
             <input type="submit" value="Generate"/>
-        </form>
+        }
     </div>
 </div>
 <div class="row">
@@ -52,7 +53,7 @@
         $("ul.nav li.histogram").addClass("active");
         $("select#chart_type").val('@ViewBag.Accessor');
         $("select#chart_type").change(function() {
-            document.location.href = '/Histogram?accessor=' + $(this).val();
+            document.location.href = './Histogram?accessor=' + $(this).val();
         });
         var groupMap = {};
         @foreach (var feature in ViewBag.Features)
@@ -114,12 +115,12 @@
                 .attr("y", function(d) { return height + 16; })
                 .attr("class", "feature");
         };
-        d3.json('/api/HistogramData', displayChart);
+        d3.json('./api/HistogramData', displayChart);
 
         $("select#group").change(function() {
             svg.selectAll("rect").remove();
             svg.selectAll("text").remove();
-            d3.json('/api/HistogramData', displayChart);
+            d3.json('./api/HistogramData', displayChart);
         });
     </script>
 }

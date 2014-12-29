@@ -158,4 +158,4 @@ src/FWClient/Featurewise*.nupkg
 #custom
 scripts/data.csv
 FeatureWise.sln.ide/
-
+*.ignore
