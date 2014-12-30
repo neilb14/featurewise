@@ -31,5 +31,33 @@ namespace Tests.Client
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
             Assert.Equal("http://localhost/api/UserEvents/12345", response.Location.ToString());
         }
+
+        [Fact]
+        public async void ShouldSendStartEvent()
+        {
+            var at = DateTime.UtcNow;
+            var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.Created);
+            httpResponseMessage.Headers.Location = new Uri("http://localhost/api/UserEvents/12345");
+            client.Setup(c => c.PostUserEvent(It.IsAny<Guid>(), "Moose", "Start", It.IsAny<DateTime>())).Returns(new Task<HttpResponseMessage>(() => httpResponseMessage));
+            var response = await featureWise.Start("Moose", at);
+            Assert.NotNull(response.Id);
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+            Assert.Equal("http://localhost/api/UserEvents/12345", response.Location.ToString());
+        }
+
+        [Fact]
+        public async void ShouldSendStopEvent()
+        {
+            var at = DateTime.UtcNow;
+            var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.Created);
+            httpResponseMessage.Headers.Location = new Uri("http://localhost/api/UserEvents/12345");
+            client.Setup(c => c.PostUserEvent(It.IsAny<Guid>(), "Moose", "Stop", It.IsAny<DateTime>())).Returns(new Task<HttpResponseMessage>(() => httpResponseMessage));
+            var response = await featureWise.Stop("Moose", at);
+            Assert.NotNull(response.Id);
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+            Assert.Equal("http://localhost/api/UserEvents/12345", response.Location.ToString());
+        }
+
+
     }
 }

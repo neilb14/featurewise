@@ -18,5 +18,19 @@ namespace GF.FeatureWise.Client
             var result = await client.PostUserEvent(id, feature, "Tick", at);
             return new FeatureWiseResponse(id, result.Headers.Location, result.StatusCode);
         }
+
+        public async Task<FeatureWiseResponse> Start(string feature, DateTime at)
+        {
+            var id = Guid.NewGuid();
+            var result = await client.PostUserEvent(id, feature, "Start", at);
+            return new FeatureWiseResponse(id, result.Headers.Location, result.StatusCode);
+        }
+
+        public async Task<FeatureWiseResponse> Stop(string feature, DateTime at)
+        {
+            var id = Guid.NewGuid();
+            var result = await client.PostUserEvent(id, feature, "Stop", at);
+            return new FeatureWiseResponse(id, result.Headers.Location, result.StatusCode);
+        }
     }
 }
