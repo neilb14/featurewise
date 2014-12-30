@@ -159,4 +159,5 @@ src/FWClient/Featurewise*.nupkg
 scripts/data.csv
 FeatureWise.sln.ide/
 connections.config
+*.ignore
 

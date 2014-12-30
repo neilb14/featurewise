@@ -48,7 +48,7 @@ namespace GF.FeatureWise.Services.Controllers
                     repository.Add(userEventRecord);
                 }
             }
-            return new RedirectResult("/Workbench");
+            return RedirectToAction("Index", "Workbench");
         }
     }
 }

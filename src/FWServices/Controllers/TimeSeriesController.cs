@@ -52,7 +52,7 @@ namespace GF.FeatureWise.Services.Controllers
         public ActionResult Generate()
         {
             BackgroundJob.Enqueue(() => GenerateReports());
-            return new RedirectResult("/TimeSeries");
+            return RedirectToAction("Index", "TimeSeries");
         }
 
         public void GenerateReports()

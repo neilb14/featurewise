@@ -3,20 +3,23 @@
 }
 
 <h2>Workbench</h2>
-<form id="add_event" action="/Workbench" enctype="multipart/form-data" method="POST">
-    <h3>Add Event</h3>
-    <input type="text" name="name"/>
-    <select name="type">
-        <option value="tick">Tick</option>
-        <option value="start">Start</option>
-        <option value="stop">Stop</option>
-    </select>
-    <input type="submit" name="add" value="Add Event"/>
-    <br/>
-    <h3>Import Events</h3>
-    <input type="file" name="file"/>
-    <input type="submit" name="import" value="Import Events"/>
-</form>
+<h3>Add Event</h3>
+@using (Html.BeginForm("Index", "Workbench", FormMethod.Post,new {enctype = "multipart/form-data"}))
+{
+    
+    @Html.TextBox("name");
+    @Html.DropDownList("type", new[]
+    {
+       new SelectListItem {Text = "Tick", Value ="tick"},
+       new SelectListItem {Text = "Start", Value ="start"},
+       new SelectListItem {Text = "Stop", Value ="stop"}
+    });    
+   <input type="submit" name="add" value="Add Event" />
+   <br/>
+   <h3>Import Events</h3>
+   <input type="file" name="file" />
+    <input type="submit" name="import" value="Import Events" />
+}
 <h3>Events</h3>
 <table id="events">
     <thead>
