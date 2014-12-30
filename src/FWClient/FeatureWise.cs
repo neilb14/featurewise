@@ -8,12 +8,12 @@ namespace GF.FeatureWise.Client
 
         public static FeatureWiseResponse Tick(string feature, DateTime timestamp)
         {
-            return instance.Tick(feature, timestamp).Result;
+            return instance.Tick(feature, timestamp);
         } 
 
         public static FeatureWiseResponse Start(string feature, DateTime timestamp)
         {
-            return instance.Start(feature, timestamp).Result;
+            return instance.Start(feature, timestamp);
         }
     }
 }

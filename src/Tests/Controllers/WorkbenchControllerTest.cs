@@ -36,10 +36,11 @@ namespace Tests.Controllers
         public void PostIndex_ShouldSaveASingleEvent_WhenFileIsNull()
         {
             repository.Setup(r => r.Add(It.IsAny<UserEvent>())).Returns(new UserEvent());
-            var result = controller.Index(null, "Moose", "Tick") as RedirectResult;
+            var result = controller.Index(null, "Moose", "Tick") as RedirectToRouteResult;
             repository.VerifyAll();
             Assert.NotNull(result);
-            Assert.Equal("/Workbench", result.Url);
+            Assert.Equal("Workbench", result.RouteValues["controller"]);
+            Assert.Equal("Index", result.RouteValues["action"]);
         }        
 
         [Fact]
@@ -48,10 +49,11 @@ namespace Tests.Controllers
             parser.Setup(p => p.FromStream(It.IsAny<Stream>()))
                   .Returns(new[] {new UserEvent(), new UserEvent(), new UserEvent(),});
             repository.Setup(r => r.Add(It.IsAny<UserEvent>())).Returns(new UserEvent());
-            var result = controller.Index(file.Object, "Moose", "Tick") as RedirectResult;
+            var result = controller.Index(file.Object, "Moose", "Tick") as RedirectToRouteResult;
             repository.VerifyAll();
             Assert.NotNull(result);
-            Assert.Equal("/Workbench", result.Url);
+            Assert.Equal("Workbench", result.RouteValues["controller"]);
+            Assert.Equal("Index", result.RouteValues["action"]);
         }
     }
 }

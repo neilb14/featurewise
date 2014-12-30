@@ -15,14 +15,16 @@ namespace GF.FeatureWise.Services.Controllers
         private readonly IFeatureRepository featureRepository;
         private readonly IUserEventRepository userEventRepository;
         private readonly IGenerate<TimeSeries> generateTimeSeries;
+        private readonly IBackgroundJobClient backgroundJobClient;
 
-        public TimeSeriesController(ApiDataContext context, ITimeSeriesRepository timeSeriesRepository, IUserEventRepository userEventRepository, IGenerate<TimeSeries> generateTimeSeries, IFeatureRepository featureRepository)
+        public TimeSeriesController(ApiDataContext context, ITimeSeriesRepository timeSeriesRepository, IUserEventRepository userEventRepository, IGenerate<TimeSeries> generateTimeSeries, IFeatureRepository featureRepository, IBackgroundJobClient backgroundJobClient)
         {
             this.context = context;
             this.timeSeriesRepository = timeSeriesRepository;
             this.userEventRepository = userEventRepository;
             this.generateTimeSeries = generateTimeSeries;
             this.featureRepository = featureRepository;
+            this.backgroundJobClient = backgroundJobClient;
         }
 
         public TimeSeriesController():this(new ApiDataContext())
@@ -34,7 +36,7 @@ namespace GF.FeatureWise.Services.Controllers
         }
 
         public TimeSeriesController(ApiDataContext context, IFeatureRepository featureRepository)
-            : this(context, new TimeSeriesRepository(context), new UserEventRepository(context), new GenerateFeatureDecorator<TimeSeries>(new GenerateTimeSeries(),featureRepository), featureRepository)
+            : this(context, new TimeSeriesRepository(context), new UserEventRepository(context), new GenerateFeatureDecorator<TimeSeries>(new GenerateTimeSeries(),featureRepository), featureRepository, new BackgroundJobClient())
         {
         }
 
@@ -51,7 +53,7 @@ namespace GF.FeatureWise.Services.Controllers
         [HttpPost]
         public ActionResult Generate()
         {
-            BackgroundJob.Enqueue(() => GenerateReports());
+            backgroundJobClient.Enqueue(() => GenerateReports());
             return RedirectToAction("Index", "TimeSeries");
         }
 

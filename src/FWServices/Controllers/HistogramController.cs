@@ -11,21 +11,23 @@ namespace GF.FeatureWise.Services.Controllers
         private readonly IHistogramRepository repository;
         private readonly IUserEventRepository userEventRepository;
         private readonly IFeatureRepository featureRepository;
+        private readonly IBackgroundJobClient backgroundJobClient;
         private readonly IGenerate<Histogram> generateHistogram;
 
-        public HistogramController(IHistogramRepository repository, IUserEventRepository userEventRepository, IGenerate<Histogram> generateHistogram, IFeatureRepository featureRepository)
+        public HistogramController(IHistogramRepository repository, IUserEventRepository userEventRepository, IGenerate<Histogram> generateHistogram, IFeatureRepository featureRepository, IBackgroundJobClient backgroundJobClient)
         {
             this.repository = repository;
             this.userEventRepository = userEventRepository;
             this.generateHistogram = generateHistogram;
             this.featureRepository = featureRepository;
+            this.backgroundJobClient = backgroundJobClient;
         }
 
-        public HistogramController(ApiDataContext context, IFeatureRepository featureRepository): this(new HistogramRepository(context), new UserEventRepository(context), new GenerateFeatureDecorator<Histogram>(new GenerateHistogram(), featureRepository), featureRepository)
+        public HistogramController(ApiDataContext context, IFeatureRepository featureRepository, IBackgroundJobClient backgroundJobClient): this(new HistogramRepository(context), new UserEventRepository(context), new GenerateFeatureDecorator<Histogram>(new GenerateHistogram(), featureRepository), featureRepository, backgroundJobClient)
         {            
         }
 
-        public HistogramController(ApiDataContext context) : this(context, new FeatureRepository(context))
+        public HistogramController(ApiDataContext context) : this(context, new FeatureRepository(context), new BackgroundJobClient())
         {
         }
 
@@ -47,7 +49,7 @@ namespace GF.FeatureWise.Services.Controllers
         [HttpPost]
         public ActionResult Generate()
         {
-            BackgroundJob.Enqueue(() => GenerateReport());
+            backgroundJobClient.Enqueue(() => GenerateReport());
             return RedirectToAction("Index", "Histogram");
         }
 

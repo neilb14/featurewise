@@ -1,14 +1,13 @@
 ﻿using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace GF.FeatureWise.Client
 {
     public class HttpClientWrapper : IHttpClient
     {        
-        public async Task<HttpResponseMessage> PostAsync(string requestUri, HttpContent content)
+        public HttpResponseMessage Post(string requestUri, HttpContent content)
         {   
             using(var client = new HttpClient()) 
-                return await client.PostAsync(requestUri, content);
+                return client.PostAsync(requestUri, content).Result;
         }
     }
 }

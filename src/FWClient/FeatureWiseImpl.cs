@@ -12,24 +12,24 @@ namespace GF.FeatureWise.Client
             this.client = client;
         }
 
-        public async Task<FeatureWiseResponse> Tick(string feature, DateTime at)
+        public FeatureWiseResponse Tick(string feature, DateTime at)
         {
             var id = Guid.NewGuid();
-            var result = await client.PostUserEvent(id, feature, "Tick", at);
+            var result = client.PostUserEvent(id, feature, "Tick", at);
             return new FeatureWiseResponse(id, result.Headers.Location, result.StatusCode);
         }
 
-        public async Task<FeatureWiseResponse> Start(string feature, DateTime at)
+        public FeatureWiseResponse Start(string feature, DateTime at)
         {
             var id = Guid.NewGuid();
-            var result = await client.PostUserEvent(id, feature, "Start", at);
+            var result = client.PostUserEvent(id, feature, "Start", at);
             return new FeatureWiseResponse(id, result.Headers.Location, result.StatusCode);
         }
 
-        public async Task<FeatureWiseResponse> Stop(string feature, DateTime at)
+        public FeatureWiseResponse Stop(string feature, DateTime at)
         {
             var id = Guid.NewGuid();
-            var result = await client.PostUserEvent(id, feature, "Stop", at);
+            var result = client.PostUserEvent(id, feature, "Stop", at);
             return new FeatureWiseResponse(id, result.Headers.Location, result.StatusCode);
         }
     }
