@@ -32,7 +32,7 @@ namespace GF.FeatureWise.Services.Controllers
         }
 
         public HttpResponseMessage PostUserEvent(UserEvent userEvent)
-        {
+        {            
             var result = repository.Add(userEvent);
             var response = Request.CreateResponse(HttpStatusCode.Created, result);
             var uri = Url.Link("DefaultApi", new {controller = "UserEvents", id = result.Id});
