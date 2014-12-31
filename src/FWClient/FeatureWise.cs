@@ -5,7 +5,7 @@ namespace GF.FeatureWise.Client
 {
     public class FeatureWise
     {
-        public static FeatureWiseImpl instance = new FeatureWiseImpl(new FeatureWiseHttpClient(new HostnameProvider(),new HttpClientWrapper()));
+        public static FeatureWiseImpl instance = new FeatureWiseImpl(new RetryFailedRequestsDecorator(new FeatureWiseHttpClient(new HostnameProvider(),new HttpClientWrapper()),5));
 
         public static void Tick(string feature, DateTime timestamp)
         {

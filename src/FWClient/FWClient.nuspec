@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>FeatureWise</id>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
     <title>FeatureWise</title>
     <authors>Neil Bourgeois</authors>
     <owners>GravityFree</owners>
@@ -24,7 +24,7 @@ FeatureWise was built to target some specific needs for software innovation acco
 ]]>
     </summary>
     <releaseNotes>Initial version of the Featurewise client.</releaseNotes>
-    <copyright>Copyright 2014</copyright>
+    <copyright>Copyright 2013-2015</copyright>
     <tags>.NET Application Analytics Telemetry</tags>
   </metadata>
 </package>

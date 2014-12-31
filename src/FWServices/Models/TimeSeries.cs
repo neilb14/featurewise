@@ -29,8 +29,15 @@ namespace GF.FeatureWise.Services.Models
 
         public virtual void RegisterStop(DateTime at)
         {
-            Duration += (int) (at - LastStart).Value.TotalSeconds;
-            AverageDuration = Duration/Starts;
+            if (LastStart.HasValue)
+            {
+                Duration += (int) (at - LastStart).Value.TotalSeconds;
+                AverageDuration = Duration/Starts;
+            }
+            else
+            {
+                throw new ApplicationException(String.Format("Unpaired Stop: {0} [{1}-{2}-{3}]", Id, Year, Month, Day));
+            }            
         }
     }
 }
