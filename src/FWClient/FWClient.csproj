@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="FeatureWiseHttpClient.cs" />
     <Compile Include="FeatureWiseImpl.cs" />
+    <Compile Include="FeatureWiseScope.cs" />
     <Compile Include="HostnameProvider.cs" />
     <Compile Include="RetryFailedRequestsDecorator.cs" />
     <Compile Include="HttpClientWrapper.cs" />
