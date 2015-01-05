@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\FeatureWiseHttpClientTest.cs" />
+    <Compile Include="Client\FeatureWiseScopeTest.cs" />
     <Compile Include="Client\HostnameProviderTest.cs" />
     <Compile Include="Client\JsonContentTest.cs" />
     <Compile Include="Client\FeatureWiseImplTest.cs" />

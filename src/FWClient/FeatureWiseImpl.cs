@@ -2,7 +2,7 @@
 
 namespace GF.FeatureWise.Client
 {
-    public class FeatureWiseImpl
+    public class FeatureWiseImpl : IFeatureWise
     {
         private readonly IFeatureWiseHttpClient client;
 

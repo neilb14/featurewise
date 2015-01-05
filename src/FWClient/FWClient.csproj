@@ -43,6 +43,7 @@
     <Compile Include="FeatureWiseImpl.cs" />
     <Compile Include="FeatureWiseScope.cs" />
     <Compile Include="HostnameProvider.cs" />
+    <Compile Include="IFeatureWise.cs" />
     <Compile Include="RetryFailedRequestsDecorator.cs" />
     <Compile Include="HttpClientWrapper.cs" />
     <Compile Include="IFeatureWiseHttpClient.cs" />

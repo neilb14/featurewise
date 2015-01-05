@@ -28,5 +28,16 @@ namespace Tests.Client
             new FeatureWiseHttpClient(hostnameProvider.Object, httpClient.Object).PostUserEvent(id, "Moose","Tick",at);
             httpClient.VerifyAll();
         }
+
+        [Fact]
+        public void ShouldPostUserScope()
+        {
+            var id = Guid.NewGuid();
+            hostnameProvider.Setup(p => p.GetHostname()).Returns("http://localhost");
+            var responseMessage = new HttpResponseMessage();
+            httpClient.Setup(c => c.Post("http://localhost/api/UserScopes", It.IsAny<HttpContent>())).Returns(responseMessage);
+            new FeatureWiseHttpClient(hostnameProvider.Object, httpClient.Object).PostUserScope(id, "Moose", "Scope", DateTime.UtcNow,DateTime.UtcNow);
+            httpClient.VerifyAll();
+        }
     }
 }

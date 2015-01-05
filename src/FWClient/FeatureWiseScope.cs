@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GF.FeatureWise.Client
@@ -11,9 +7,9 @@ namespace GF.FeatureWise.Client
     {
         private readonly string feature;
         private readonly DateTime timestamp;
-        private readonly FeatureWiseImpl featurewise;
+        private readonly IFeatureWise featurewise;
 
-        public FeatureWiseScope(string feature, DateTime timestamp, FeatureWiseImpl featurewise)
+        public FeatureWiseScope(string feature, DateTime timestamp, IFeatureWise featurewise)
         {
             this.feature = feature;
             this.timestamp = timestamp;
