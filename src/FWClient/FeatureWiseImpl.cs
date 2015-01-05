@@ -31,5 +31,15 @@ namespace GF.FeatureWise.Client
             var result = client.PostUserEvent(id, feature, "Stop", at);
             return new FeatureWiseResponse(id, result.Headers.Location, result.StatusCode);
         }
+
+        public IDisposable CreateScope(string feature, DateTime timestamp)
+        {
+            return new FeatureWiseScope(feature, timestamp, this);
+        }
+
+        public void CommitScope(string feature, DateTime start, DateTime stop)
+        {
+            client.PostUserScope(Guid.NewGuid(), feature, "Scope", start, stop);
+        }
     }
 }

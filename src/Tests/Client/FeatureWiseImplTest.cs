@@ -33,7 +33,7 @@ namespace Tests.Client
         }
 
         [Fact]
-        public async void ShouldSendStartEvent()
+        public void ShouldSendStartEvent()
         {
             DateTime at = DateTime.UtcNow;
             var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.Created);
@@ -47,7 +47,7 @@ namespace Tests.Client
         }
 
         [Fact]
-        public async void ShouldSendStopEvent()
+        public void ShouldSendStopEvent()
         {
             DateTime at = DateTime.UtcNow;
             var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.Created);
