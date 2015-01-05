@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Threading;
 
 namespace GF.FeatureWise.Client
 {
@@ -18,10 +19,11 @@ namespace GF.FeatureWise.Client
         {
             var currentTry = 0;
             HttpResponseMessage result = null;
-            while (currentTry++ < maxRetries)
-            {
+            while (currentTry++ <= maxRetries)
+            {                
                 result = realClient.PostUserEvent(id, feature, type, at);
                 if (result.IsSuccessStatusCode) return result;
+                Thread.Sleep(new Random().Next(100*currentTry, 10000*currentTry));
             }
             return result;
         }
