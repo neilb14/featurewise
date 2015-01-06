@@ -86,6 +86,7 @@
     <Compile Include="Controllers\HisogramControllerTest.cs" />
     <Compile Include="Controllers\TimeSeriesControllerTest.cs" />
     <Compile Include="Controllers\UserEventControllerTest.cs" />
+    <Compile Include="Controllers\UserScopesControllerTest.cs" />
     <Compile Include="Controllers\WorkbenchControllerTest.cs" />
     <Compile Include="Models\SparklineBuilderTest.cs" />
     <Compile Include="Models\GenerateFeatureDecoratorTest.cs" />
